@@ -6,6 +6,7 @@
 @media only print, only screen and (min-width: 1025px) {
   html {
     font-size: 70%;
+    scroll-behavior: smooth;
   }
   .container,
   .header {
