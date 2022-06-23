@@ -241,6 +241,7 @@ a:hover {
   height: 4rem;
   max-width: 42.5rem;
   width: 100%;
+  cursor: pointer;
 }
 
 .contact-information {
