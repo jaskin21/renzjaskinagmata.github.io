@@ -1,0 +1,63 @@
+/***********************
+*****************
+ This is for tablet size screen css 
+ ****************
+ ***********************/
+@media only print, only screen and (min-width: 640px) {
+  html {
+    font-size: 67%;
+  }
+  .container,
+  .header {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    justify-content: space-between;
+  }
+
+  .portfolio-logo {
+    background-color: #374357;
+    border-radius: 2rem;
+    box-shadow: 2px 2px 3px #999;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    width: 5rem;
+    display: inline-block;
+  }
+
+  /***********************
+      LANDING PAGE SECTION 
+   ***********************/
+  .landing-page {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 30rem calc(100% - 30rem);
+  }
+  .message-banner {
+    padding-top: 7rem;
+  }
+  .profile {
+    justify-self: center;
+  }
+
+  /***********************
+      MY SKILLS SECTION 
+   ***********************/
+  .myskills .myskills-content {
+    display: grid;
+    grid-template-columns: 40% 60%;
+  }
+
+  /* Mini Projects */
+  .project-box .project-description {
+    font-size: 1.7rem;
+    padding: 2rem;
+  }
+
+  .project-section .project-box {
+    display: flex;
+  }
+
+  .project-box img {
+    width: 70%;
+  }
+}

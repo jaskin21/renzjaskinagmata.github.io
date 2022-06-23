@@ -1,0 +1,33 @@
+/***********************
+*****************
+ This is for desktop size screen css 
+ ****************
+ ***********************/
+@media only print, only screen and (min-width: 1025px) {
+  html {
+    font-size: 70%;
+  }
+  .container,
+  .header {
+    padding-left: 9rem;
+    padding-right: 9rem;
+  }
+
+  .landing-page {
+    grid-template-columns: 40rem calc(100% - 40rem);
+  }
+  .banner-details,
+  .downloadCV {
+    font-size: 2.5rem;
+  }
+
+  .contact-section .inner-container {
+    display: flex;
+  }
+  .contact-section form {
+    max-width: 50%;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+  }
+}
