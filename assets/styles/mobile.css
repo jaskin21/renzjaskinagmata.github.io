@@ -31,6 +31,10 @@ a {
   text-decoration: none;
 }
 
+.github-repo {
+  color: blue;
+}
+
 a:hover {
   opacity: 80%;
 }
