@@ -112,8 +112,20 @@ a:hover {
   box-shadow: -0.1rem 1.5rem 3rem -1rem black;
   padding: 0.7rem;
   text-align: center;
-  width: 15rem;
+  width: 24rem;
+  font-size: 2rem;
 }
+
+
+
+/* Optional: Add hover effect */
+.heartbeat-button:hover {
+  background-color: #218838;
+  color: white;
+  /* Darker shade on hover */
+}
+
+
 .profile {
   display: flex;
   justify-content: center;
@@ -260,7 +272,7 @@ a:hover {
 .contact-information .contact-info {
   align-items: center;
   display: flex;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 .contact-information .contact-info i {
   font-size: 3.5rem;

@@ -60,4 +60,41 @@
   .project-box img {
     width: 70%;
   }
+
+     /***********************
+      LANDING PAGE SECTION
+     ***********************/
+  
+     .heartbeat-button {
+       display: inline-block;
+       padding: 10px 20px;
+       font-size: 18px;
+       /* Text color */
+       background-color: #28a745;
+       /* Button color */
+       border: none;
+       border-radius: 5px;
+       /* Rounded corners */
+       text-decoration: none;
+       /* Remove underline */
+       text-align: center;
+       transition: transform 0.3s;
+       /* Smooth transition */
+       animation: heartbeat 1.5s infinite;
+       /* Apply heartbeat animation */
+     }
+  
+     /* Heartbeat Animation */
+     @keyframes heartbeat {
+  
+       0%,
+       100% {
+         transform: scale(1);
+       }
+  
+       50% {
+         transform: scale(1.1);
+         /* Slightly scale up */
+       }
+     }
 }
