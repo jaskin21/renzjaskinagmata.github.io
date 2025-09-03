@@ -22,10 +22,17 @@ export const apiSlice = createApi({
 
   endpoints: (builder) => ({
     // GET all expenses
-    getExpenses: builder.query<GetExpensesResponse, void>({
-      query: () => '/expenses',
-      providesTags: ['Expenses'],
-    }),
+    getExpenses: builder.query<GetExpensesResponse, { search?: string } | void>(
+      {
+        query: (params) => {
+          if (params?.search) {
+            return `/expenses?search=${encodeURIComponent(params.search)}`;
+          }
+          return '/expenses';
+        },
+        providesTags: ['Expenses'],
+      }
+    ),
 
     getExpense: builder.query<GetExpenseResponse, string>({
       query: (id) => `/expenses/${id}`,
