@@ -14,8 +14,8 @@ const DeleteConfirmationModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50'>
-      <div className='relative p-4 w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700'>
+    <div className='fixed inset-0 z-[99999] flex justify-center items-start bg-black bg-opacity-50 pointer-events-auto'>
+      <div className='relative mt-20 p-4 w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700 pointer-events-auto'>
         <button
           type='button'
           className='absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white'

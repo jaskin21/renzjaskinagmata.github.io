@@ -13,10 +13,10 @@ export default function Layout() {
     <div>
       <header>
         <nav className='bg-gray-300 border-gray-500 px-4 lg:px-6 py-2.5 dark:bg-gray-800 mb-10'>
-          <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
-            <Link to='/' className='flex items-center'>
+          <div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl '>
+            <Link to='/' className='flex items-center gap-2'>
               <Invoice size={44} weight='duotone' />
-              <h1 className='ml-2 text-2xl thin'>Expense Tracker</h1>
+              <h1 className='ml-2 text-2xl thin'>Expense Tracker App</h1>
             </Link>
           </div>
         </nav>

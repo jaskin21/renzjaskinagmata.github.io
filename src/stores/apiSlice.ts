@@ -21,35 +21,45 @@ export const apiSlice = createApi({
   tagTypes: ['Expenses'],
 
   endpoints: (builder) => ({
-    // GET all expenses
+    // ✅ GET all expenses
     getExpenses: builder.query<GetExpensesResponse, { search?: string } | void>(
       {
-        query: (params) => {
-          if (params?.search) {
-            return `/expenses?search=${encodeURIComponent(params.search)}`;
-          }
-          return '/expenses';
-        },
-        providesTags: ['Expenses'],
+        query: (params) =>
+          params?.search
+            ? `/expenses?search=${encodeURIComponent(params.search)}`
+            : '/expenses',
+        providesTags: (result) =>
+          result?.data
+            ? [
+                // Individual expense tags
+                ...result.data.map((expense) => ({
+                  type: 'Expenses' as const,
+                  id: expense.id,
+                })),
+                // Full list tag
+                { type: 'Expenses', id: 'LIST' },
+              ]
+            : [{ type: 'Expenses', id: 'LIST' }],
       }
     ),
 
+    // ✅ GET single expense
     getExpense: builder.query<GetExpenseResponse, string>({
       query: (id) => `/expenses/${id}`,
-      providesTags: ['Expenses'],
+      providesTags: (_result, _error, id) => [{ type: 'Expenses', id }],
     }),
 
-    // POST create expense
+    // ✅ POST create expense
     createExpense: builder.mutation<Expense, CreateExpenseRequest>({
       query: (body) => ({
         url: '/expenses',
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Expenses'],
+      invalidatesTags: [{ type: 'Expenses', id: 'LIST' }],
     }),
 
-    // PATCH update expense
+    // ✅ PATCH update expense
     updateExpense: builder.mutation<Expense, UpdateExpenseRequest>({
       query: ({ id, updates }) => ({
         url: `/expenses/${id}`,
@@ -57,18 +67,21 @@ export const apiSlice = createApi({
         body: updates,
       }),
       invalidatesTags: (_result, _error, { id }) => [
-        { type: 'Expenses', id },
-        'Expenses',
+        { type: 'Expenses', id }, // invalidate single
+        { type: 'Expenses', id: 'LIST' }, // invalidate list
       ],
     }),
 
-    // DELETE expense
+    // ✅ DELETE expense
     deleteExpense: builder.mutation<DeleteExpenseResponse, string>({
       query: (id) => ({
         url: `/expenses/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Expenses'],
+      invalidatesTags: (_result, _error, id) => [
+        { type: 'Expenses', id }, // remove deleted one
+        { type: 'Expenses', id: 'LIST' }, // refresh list
+      ],
     }),
 
     // GET summary with optional date range
