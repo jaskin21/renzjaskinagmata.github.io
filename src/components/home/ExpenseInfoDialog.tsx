@@ -28,7 +28,7 @@ export default function ExpenseInfoDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Expense Details</AlertDialogTitle>
           <AlertDialogCancel
-            className='absolute top-0 right-0 text-gray-400 hover:text-gray-600'
+            className='absolute top-3 right-3 text-gray-400 hover:text-gray-600'
             onClick={onClose}
           >
             ✕

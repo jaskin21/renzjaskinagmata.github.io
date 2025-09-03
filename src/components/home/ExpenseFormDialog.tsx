@@ -73,7 +73,7 @@ export default function ExpenseFormDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
-      <AlertDialogContent className='relative'>
+      <AlertDialogContent className='fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-lg'>
         {/* ❌ Close button */}
         <AlertDialogCancel
           className='absolute top-3 right-3 text-gray-400 hover:text-gray-600'

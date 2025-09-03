@@ -18,8 +18,8 @@ import useDeleteConfirmation from '../hook/useConfirmationDelete';
 import { handleFetchBaseQueryError } from '../utils/errorFactory';
 import useToast from '../hook/useToast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import ExpenseInfoDialog from '../components/custom/ExpenseInfoDialog';
-import ExpenseFormDialog from '../components/custom/ExpenseFormDialog';
+import ExpenseInfoDialog from '../components/home/ExpenseInfoDialog';
+import ExpenseFormDialog from '../components/home/ExpenseFormDialog';
 
 export default function ExpensesTable() {
   const { showSuccessToast, showErrorToast } = useToast();
