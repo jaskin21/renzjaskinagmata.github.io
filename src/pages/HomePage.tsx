@@ -31,7 +31,6 @@ export default function ExpensesTable() {
     search ? { search } : undefined
   );
   const expenses: Expense[] = data?.data || [];
-  const filteredExpenses: Expense[] = [];
 
   // dialog state
   const [infoExpense, setInfoExpense] = useState<Expense | null>(null);
@@ -309,7 +308,6 @@ export default function ExpensesTable() {
       <SummaryDrawer
         open={openSummary}
         onOpenChange={setOpenSummary}
-        expenses={filteredExpenses}
       />
     </div>
   );

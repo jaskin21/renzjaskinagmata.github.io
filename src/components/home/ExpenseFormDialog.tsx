@@ -26,7 +26,10 @@ interface Props {
 interface ExpenseFormValues {
   description: string;
   amount: number;
+  category: string;
 }
+
+const categories = ['Food', 'Transport', 'Entertainment', 'Utilities', 'Other'];
 
 export default function ExpenseFormDialog({
   open,
@@ -37,7 +40,7 @@ export default function ExpenseFormDialog({
   const isEditing = !!expense;
 
   const { register, handleSubmit, reset } = useForm<ExpenseFormValues>({
-    defaultValues: { description: '', amount: 0 },
+    defaultValues: { description: '', amount: 0, category: 'Other' },
   });
 
   const [createExpense] = useCreateExpenseMutation();
@@ -49,9 +52,10 @@ export default function ExpenseFormDialog({
       reset({
         description: expense.description,
         amount: expense.amount,
+        category: expense.category || 'Other',
       });
     } else {
-      reset({ description: '', amount: 0 });
+      reset({ description: '', amount: 0, category: 'Other' });
     }
   }, [expense, reset]);
 
@@ -88,6 +92,7 @@ export default function ExpenseFormDialog({
           </AlertDialogTitle>
           <AlertDialogDescription>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+              {/* Description */}
               <div>
                 <label className='block text-sm font-medium mb-1'>
                   Description
@@ -98,6 +103,8 @@ export default function ExpenseFormDialog({
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 />
               </div>
+
+              {/* Amount */}
               <div>
                 <label className='block text-sm font-medium mb-1'>Amount</label>
                 <input
@@ -110,6 +117,25 @@ export default function ExpenseFormDialog({
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 />
               </div>
+
+              {/* Category dropdown */}
+              <div>
+                <label className='block text-sm font-medium mb-1'>
+                  Category
+                </label>
+                <select
+                  {...register('category', { required: true })}
+                  className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
+                >
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Footer */}
               <AlertDialogFooter className='flex justify-end gap-3 pt-4'>
                 <button
                   type='button'

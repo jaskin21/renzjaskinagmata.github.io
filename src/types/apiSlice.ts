@@ -1,8 +1,6 @@
 // -----------------
 // Types
 // -----------------
-// types/api.ts
-
 export interface Expense {
   id: string;
   description: string;
@@ -14,10 +12,10 @@ export interface Expense {
 
 // Generic API response wrapper
 export interface ApiResponse<T> {
-  status: string;   // e.g., "success" or "error"
-  code: number;     // HTTP status code
-  message: string;  // description message
-  data: T;          // generic data payload
+  status: string; 
+  code: number; 
+  message: string; 
+  data: T;     
 }
 
 // Response type for getExpenses
@@ -43,3 +41,24 @@ export interface DeleteExpenseResponse {
 export interface SummaryResponse {
   total: number;
 }
+
+// types
+export interface SummaryCategory {
+  category: string;
+  amount: number;
+  percentage: number;
+}
+
+export interface SummaryData {
+  total: number;
+  items: number;
+  categories: SummaryCategory[];
+}
+
+export interface SummaryResponse {
+  status: string; // e.g. "success"
+  code: number; // e.g. 200
+  message: string; // e.g. "Summary fetched successfully"
+  data: SummaryData;
+}
+
