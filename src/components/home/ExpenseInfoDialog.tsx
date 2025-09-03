@@ -8,6 +8,7 @@ import {
   AlertDialogCancel,
 } from '../ui/alert-dialog';
 import { Expense } from '../../types/apiSlice';
+import { format } from 'date-fns';
 
 interface Props {
   expense: Expense;
@@ -38,15 +39,23 @@ export default function ExpenseInfoDialog({
               <strong>Description:</strong> {expense.description}
             </p>
             <p>
-              <strong>Amount:</strong> ${expense.amount.toFixed(2)}
+              <strong>Category:</strong> {expense.category}
             </p>
             <p>
-              <strong>Created At:</strong>{' '}
-              {new Date(expense.createdAt).toLocaleString()}
+              <strong>Amount:</strong>{' '}
+              {expense.amount.toLocaleString('en-PH', {
+                style: 'currency',
+                currency: 'PHP',
+              })}
             </p>
             <p>
-              <strong>Updated At:</strong>{' '}
-              {new Date(expense.updatedAt).toLocaleString()}
+              <strong>Created:</strong>{' '}
+              {format(new Date(expense.createdAt), 'MMMM d, yyyy @h:mm:ss a')}
+            </p>
+
+            <p>
+              <strong>Updated:</strong>{' '}
+              {format(new Date(expense.updatedAt), 'MMMM d, yyyy @h:mm:ss a')}
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>

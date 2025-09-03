@@ -7,6 +7,7 @@ export interface Expense {
   id: string;
   description: string;
   amount: number;
+  category: string;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }

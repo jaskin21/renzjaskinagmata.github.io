@@ -20,6 +20,8 @@ import useToast from '../hook/useToast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import ExpenseInfoDialog from '../components/home/ExpenseInfoDialog';
 import ExpenseFormDialog from '../components/home/ExpenseFormDialog';
+import SummaryDrawer from '../components/home/SummaryDrawer';
+import { format } from 'date-fns';
 
 export default function ExpensesTable() {
   const { showSuccessToast, showErrorToast } = useToast();
@@ -29,11 +31,13 @@ export default function ExpensesTable() {
     search ? { search } : undefined
   );
   const expenses: Expense[] = data?.data || [];
+  const filteredExpenses: Expense[] = [];
 
   // dialog state
   const [infoExpense, setInfoExpense] = useState<Expense | null>(null);
   const [formExpense, setFormExpense] = useState<Expense | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [openSummary, setOpenSummary] = useState(false);
 
   // delete confirmation
   const {
@@ -165,8 +169,9 @@ export default function ExpensesTable() {
                   />
                 </TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead>Updated At</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Updated</TableHead>
                 <TableHead>Amount</TableHead>
               </TableRow>
             </TableHeader>
@@ -206,13 +211,23 @@ export default function ExpensesTable() {
                       />
                     </TableCell>
                     <TableCell>{expense.description}</TableCell>
+                    <TableCell>{expense.category}</TableCell>
                     <TableCell>
-                      {new Date(expense.createdAt).toLocaleDateString()}
+                      {format(new Date(expense.createdAt), 'MMMM d, yyyy')}
                     </TableCell>
                     <TableCell>
-                      {new Date(expense.updatedAt).toLocaleDateString()}
+                      {format(new Date(expense.updatedAt), 'MMMM d, yyyy')}
                     </TableCell>
-                    <TableCell>${expense.amount.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <TableCell>
+                        <TableCell>
+                          {expense.amount.toLocaleString('en-PH', {
+                            style: 'currency',
+                            currency: 'PHP',
+                          })}
+                        </TableCell>
+                      </TableCell>
+                    </TableCell>
                   </TableRow>
                 ))}
               {!isLoading && !isError && expenses.length === 0 && (
@@ -246,6 +261,7 @@ export default function ExpensesTable() {
             </button>
             <button
               disabled={isDeleting}
+              onClick={() => setOpenSummary(true)}
               className={`w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 text-white shadow-lg hover:bg-gray-700 ${
                 isDeleting ? 'opacity-50 pointer-events-none' : ''
               }`}
@@ -287,6 +303,13 @@ export default function ExpensesTable() {
         onClose={closeDeleteModal}
         onConfirm={() => confirmDelete()}
         message='Are you sure you want to delete this item?'
+      />
+
+      {/* Drawer lives once at the root of the page */}
+      <SummaryDrawer
+        open={openSummary}
+        onOpenChange={setOpenSummary}
+        expenses={filteredExpenses}
       />
     </div>
   );
