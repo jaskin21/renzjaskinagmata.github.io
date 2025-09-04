@@ -93,6 +93,7 @@ export default function ExpensesTable() {
       setIsDeleting(true);
       try {
         await deleteExpense(id).unwrap();
+         showSuccessToast(`Item deleted successfully!`);
         await refetch();
         setInfoExpense(null);
       } catch (error) {

@@ -15,6 +15,9 @@ import {
   useUpdateExpenseMutation,
 } from '../../stores/apiSlice';
 import { useState, useEffect } from 'react';
+import useToast from '../../hook/useToast';
+import { handleFetchBaseQueryError } from '../../utils/errorFactory';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 interface Props {
   open: boolean;
@@ -39,9 +42,15 @@ export default function ExpenseFormDialog({
 }: Props) {
   const isEditing = !!expense;
 
-  const { register, handleSubmit, reset } = useForm<ExpenseFormValues>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ExpenseFormValues>({
     defaultValues: { description: '', amount: 0, category: 'Other' },
   });
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const [createExpense] = useCreateExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation();
@@ -59,17 +68,31 @@ export default function ExpenseFormDialog({
     }
   }, [expense, reset]);
 
+  useEffect(() => {
+    if (!open) {
+      reset({ description: '', amount: 0, category: 'Other' });
+    }
+  }, [open, reset]);
+
   const onSubmit = async (values: ExpenseFormValues) => {
     setIsSaving(true);
     try {
       if (isEditing && expense) {
         await updateExpense({ id: expense.id, updates: values }).unwrap();
+        showSuccessToast(`Expense updated successfully.`);
       } else {
         await createExpense(values).unwrap();
+        showSuccessToast(`New expense created.`);
+        reset({ description: '', amount: 0, category: 'Other' });
       }
       onSaved();
-    } catch (err) {
-      console.error('Failed to save expense:', err);
+    } catch (error) {
+      const errorMessage = handleFetchBaseQueryError(
+        error as FetchBaseQueryError,
+        'Failed to save expense. Please try again.',
+        true
+      );
+      showErrorToast(errorMessage);
     } finally {
       setIsSaving(false);
     }
@@ -99,23 +122,69 @@ export default function ExpenseFormDialog({
                 </label>
                 <input
                   type='text'
-                  {...register('description', { required: true })}
+                  {...register('description', {
+                    required: 'Description is required',
+                    minLength: {
+                      value: 3,
+                      message: 'Description must be at least 3 characters',
+                    },
+                    maxLength: {
+                      value: 100,
+                      message: 'Description cannot exceed 100 characters',
+                    },
+                  })}
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 />
+                {errors.description && (
+                  <p className='mt-1 text-sm text-red-500'>
+                    {errors.description.message}
+                  </p>
+                )}
               </div>
 
               {/* Amount */}
               <div>
                 <label className='block text-sm font-medium mb-1'>Amount</label>
                 <input
-                  type='number'
-                  step='0.01'
+                  type='text'
+                  inputMode='numeric'
                   {...register('amount', {
-                    required: true,
-                    valueAsNumber: true,
+                    required: 'Amount is required',
+                    validate: (value) =>
+                      Number(value) > 0 || 'Amount must be greater than 0',
+                    setValueAs: (value) => {
+                      if (!value) return 0;
+
+                      // keep only digits
+                      let cleaned = value.toString().replace(/[^\d]/g, '');
+
+                      // remove leading zeros
+                      cleaned = cleaned.replace(/^0+(?!$)/, '');
+
+                      return cleaned ? Number(cleaned) : 0;
+                    },
                   })}
+                  onChange={(e) => {
+                    // keep only digits
+                    let value = e.target.value.replace(/[^\d]/g, '');
+
+                    // remove leading zeros
+                    value = value.replace(/^0+(?!$)/, '');
+
+                    // update field display
+                    if (value) {
+                      e.target.value = Number(value).toLocaleString();
+                    } else {
+                      e.target.value = ''; // allow clear
+                    }
+                  }}
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 />
+                {errors.amount && (
+                  <p className='mt-1 text-sm text-red-500'>
+                    {errors.amount.message}
+                  </p>
+                )}
               </div>
 
               {/* Category dropdown */}
