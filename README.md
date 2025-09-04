@@ -1,50 +1,98 @@
-# React + TypeScript + Vite
+# Expense Tracker Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React + Vite frontend for the Expense Tracker application. It provides a modern UI for managing expenses, viewing summaries, and interacting with the backend API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup Instructions
 
-## Expanding the ESLint configuration
+1. **Clone the repository**  
+   Make sure you have the codebase locally.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Install dependencies**  
+   Open a terminal in the `client/` directory and run:
+   ```sh
+   npm install
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+3. **Environment Variables**  
+   - Copy `.env.sample` to `.env` and update values as needed.
+   - The key variable is:
+     ```
+     VITE_API_URL=http://localhost:5000/v1
+     ```
+     This should point to your backend API.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## How to Run Locally
+
+1. **Start the development server**
+   ```sh
+   npm run dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+2. **Build for production**
+   ```sh
+   npm run build
+   ```
+   The output will be in the `dist/` folder.
+
+---
+
+## Assumptions & Decisions
+
+- **API Endpoint:**  
+  The frontend expects the backend to be running and accessible at the URL specified in `VITE_API_URL`.
+- **Authentication:**  
+  No authentication is implemented; all expense data is accessible to any user.
+- **State Management:**  
+  Uses Redux Toolkit for API calls and global state.
+- **Styling:**  
+  Tailwind CSS is used for rapid UI development.
+- **Component Structure:**  
+  UI components are organized by type and feature for maintainability.
+- **Error Handling:**  
+  Basic error handling is implemented via toast notifications and error boundaries.
+- **Browser Support:**  
+  Modern browsers (Chrome, Firefox, Edge) are supported.
+
+---
+
+## Project Structure
+
+```
+client/
+  public/           # Static assets
+  src/
+    assets/         # Images and SVGs
+    components/     # Reusable UI and feature components
+    features/       # Feature-specific logic
+    pages/          # Route-level components
+    stores/         # Redux store and slices
+    types/          # TypeScript types
+    utils/          # Utility functions
+  .env              # Environment variables
+  package.json      # NPM dependencies and scripts
+  vite.config.ts    # Vite configuration
+  tailwind.config.js# Tailwind CSS config
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Other Essentials
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- **Linting:**  
+  Run `npm run lint` to check code quality.
+- **Formatting:**  
+  Prettier is recommended for code formatting.
+- **Testing:**  
+  No automated tests are included yet.
+- **Contributing:**  
+  Please open issues or pull requests for improvements.
+
+---
+
+
+For any questions or issues, please contact the maintainer or open an issue in the
