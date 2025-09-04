@@ -1,8 +1,4 @@
-import {
-  Drawer,
-  DrawerContent,
-  DrawerClose,
-} from '../ui/drawer';
+import { Drawer, DrawerContent } from '../ui/drawer';
 import { Button } from '../ui/button';
 import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
@@ -18,14 +14,14 @@ import { CalendarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useGetSummaryQuery } from '../../stores/apiSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { format } from 'date-fns';
+import { format, subDays, differenceInCalendarDays } from 'date-fns';
 
 const COLORS = [
-  '#3b82f6',
-  '#ef4444',
+  '#60a5fa', // softer sky blue
+  '#f87171', // soft coral red
   '#22c55e',
-  '#f59e0b',
-  '#8b5cf6',
+  '#f59e0b', // warm pastel yellow-orange
+  '#a78bfa', // soft lilac purple
   '#06b6d4',
 ];
 
@@ -38,8 +34,17 @@ export default function SummaryDrawer({
   open,
   onOpenChange,
 }: SummaryDrawerProps) {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  // default: last 7 days
+  const today = new Date();
+  const defaultStart = subDays(today, 6); // 6 days ago + today = 7 days total
+  const defaultEnd = today;
+
+  const [startDate, setStartDate] = useState<Date | null>(defaultStart);
+  const [endDate, setEndDate] = useState<Date | null>(defaultEnd);
+
+  // control popover open state
+  const [openStart, setOpenStart] = useState(false);
+  const [openEnd, setOpenEnd] = useState(false);
 
   const queryArg =
     startDate && endDate
@@ -55,10 +60,17 @@ export default function SummaryDrawer({
   const total = summary?.total ?? 0;
   const categories = summary?.categories ?? [];
 
+  // compute header text
+  const isLast7Days =
+    startDate && endDate && differenceInCalendarDays(endDate, startDate) === 6; // exactly 7 days span
+
+  const headerText = isLast7Days
+    ? 'Expense Summary (Last 7 days)'
+    : 'Expense Summary';
+
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className='fixed bottom-0 left-0 w-full h-[90vh] sm:h-[600px] bg-white dark:bg-gray-900 shadow-2xl border-t border-gray-200 dark:border-gray-700 rounded-t-2xl flex flex-col'>
-        {/* Main container with card-like style */}
+      <DrawerContent className='fixed bottom-0 left-0 w-full h-[90vh] sm:h-[600px] bg-gray-200 border-gray-500 shadow-2xl border-t dark:border-gray-700 rounded-t-2xl flex flex-col'>
         <div className='flex-1 flex flex-col md:flex-row max-w-screen-xl mx-auto w-full p-6 gap-6'>
           {/* LEFT SECTION (40%) */}
           <div className='w-full md:w-2/5 flex items-center justify-center'>
@@ -66,17 +78,22 @@ export default function SummaryDrawer({
               {/* Header */}
               <div>
                 <h2 className='text-xl font-semibold text-gray-800 dark:text-gray-100'>
-                  Expense Summary
+                  {headerText}
                 </h2>
                 <p className='text-sm text-gray-500 dark:text-gray-400'>
-                  Select a date range to view summary
+                  {startDate && endDate
+                    ? `Summary Overview from ${format(
+                        startDate,
+                        'PPP'
+                      )} to ${format(endDate, 'PPP')}`
+                    : 'Choose a start and end date'}
                 </p>
               </div>
 
               {/* Date Pickers */}
               <div className='flex flex-col sm:flex-row gap-3'>
                 {/* Start Date */}
-                <Popover>
+                <Popover open={openStart} onOpenChange={setOpenStart}>
                   <PopoverTrigger asChild>
                     <Button
                       variant='outline'
@@ -90,13 +107,17 @@ export default function SummaryDrawer({
                     <Calendar
                       mode='single'
                       selected={startDate ?? undefined}
-                      onSelect={(date) => setStartDate(date ?? null)}
+                      onSelect={(date) => {
+                        setStartDate(date ?? null);
+                        setOpenStart(false); // close after select
+                      }}
+                      disabled={(date) => (endDate ? date > endDate : false)}
                     />
                   </PopoverContent>
                 </Popover>
 
                 {/* End Date */}
-                <Popover>
+                <Popover open={openEnd} onOpenChange={setOpenEnd}>
                   <PopoverTrigger asChild>
                     <Button
                       variant='outline'
@@ -110,7 +131,13 @@ export default function SummaryDrawer({
                     <Calendar
                       mode='single'
                       selected={endDate ?? undefined}
-                      onSelect={(date) => setEndDate(date ?? null)}
+                      onSelect={(date) => {
+                        setEndDate(date ?? null);
+                        setOpenEnd(false); // close after select
+                      }}
+                      disabled={(date) =>
+                        startDate ? date < startDate : false
+                      }
                     />
                   </PopoverContent>
                 </Popover>
@@ -125,18 +152,11 @@ export default function SummaryDrawer({
                 <p className='text-gray-500'>No summary to display.</p>
               ) : (
                 <div className='flex flex-col gap-3'>
-                  <div className='text-lg font-semibold text-gray-800 dark:text-gray-100'>
-                    Total: ₱{total.toLocaleString()}
-                  </div>
-                  <div className='text-sm text-gray-500 dark:text-gray-400'>
-                    Items: {summary.items}
-                  </div>
-
                   <div className='space-y-2 mt-2'>
                     {categories.map((item, i) => (
                       <div
                         key={i}
-                        className='flex justify-between text-sm border-b border-gray-200 dark:border-gray-700 last:border-b-0 py-1'
+                        className='flex justify-between text-sm border-b border-gray-300 dark:border-gray-700 py-2'
                       >
                         <span className='text-gray-700 dark:text-gray-300'>
                           {item.category}{' '}
@@ -152,6 +172,14 @@ export default function SummaryDrawer({
                   </div>
                 </div>
               )}
+              <div className='flex justify-between text-xl'>
+                <span className='text-gray-700 font-bold dark:text-gray-300'>
+                  Total:
+                </span>
+                <span className='font-medium text-gray-800 dark:text-gray-100'>
+                  ₱{total.toLocaleString()}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -184,18 +212,7 @@ export default function SummaryDrawer({
             )}
           </div>
         </div>
-
-        {/* Footer */}
-        <div className='p-4 border-t border-gray-200 dark:border-gray-700'>
-          <DrawerClose asChild>
-            <Button className='w-full' variant='secondary'>
-              Close
-            </Button>
-          </DrawerClose>
-        </div>
       </DrawerContent>
     </Drawer>
   );
 }
-
-
