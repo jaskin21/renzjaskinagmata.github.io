@@ -63,6 +63,7 @@ export default function ExpenseInfoDialog({
           <button
             type='button'
             onClick={onDelete}
+            data-testid="delete-expense"
             className='rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700'
           >
             Delete
@@ -70,6 +71,7 @@ export default function ExpenseInfoDialog({
           <button
             type='button'
             onClick={onEdit}
+            data-testid="edit-expense"
             className='rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700'
           >
             Edit

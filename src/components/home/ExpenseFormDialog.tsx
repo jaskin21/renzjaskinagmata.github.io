@@ -133,6 +133,7 @@ export default function ExpenseFormDialog({
                       message: 'Description cannot exceed 100 characters',
                     },
                   })}
+                  data-testid="expense-description"
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 />
                 {errors.description && (
@@ -164,6 +165,7 @@ export default function ExpenseFormDialog({
                       return cleaned ? Number(cleaned) : 0;
                     },
                   })}
+                  data-testid="expense-amount"
                   onChange={(e) => {
                     // keep only digits
                     let value = e.target.value.replace(/[^\d]/g, '');
@@ -194,6 +196,7 @@ export default function ExpenseFormDialog({
                 </label>
                 <select
                   {...register('category', { required: true })}
+                  data-testid="expense-category"
                   className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500'
                 >
                   {categories.map((cat) => (
@@ -217,6 +220,7 @@ export default function ExpenseFormDialog({
                 <button
                   type='submit'
                   disabled={isSaving}
+                  data-testid="save-expense"
                   className='rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50 min-w-[80px]'
                 >
                   {isSaving ? (
