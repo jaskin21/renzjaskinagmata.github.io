@@ -126,7 +126,7 @@ export default function ExpensesTable() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={isDeleting}
-              data-testid="search-bar"
+              data-testid='search-bar'
               className='w-full max-w-xs px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 disabled:opacity-50'
             />
           </div>
@@ -135,7 +135,7 @@ export default function ExpensesTable() {
             <button
               onClick={handleBulkDelete}
               disabled={isDeleting || selectedIds.length === 0}
-              data-testid="bulk-delete"
+              data-testid='bulk-delete'
               className={`flex items-center gap-2 px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 disabled:opacity-50 transition-all
                 ${selectedIds.length === 0 ? 'invisible' : 'visible'}`}
             >
@@ -247,7 +247,8 @@ export default function ExpensesTable() {
         {/* Footer */}
         <div className='px-6 py-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between relative'>
           <span className='text-sm text-gray-500 dark:text-gray-400'>
-            Last updated: {new Date().toLocaleString()}
+            Last updated:{' '}
+            {format(new Date(), 'MMMM d, yyyy @h:mm a')}
           </span>
           <div className='flex gap-3 absolute right-6 top-1/2 transform -translate-y-1/2'>
             <button
@@ -256,7 +257,7 @@ export default function ExpensesTable() {
                 setFormExpense(null);
                 setIsFormOpen(true);
               }}
-              data-testid="add-expense"
+              data-testid='add-expense'
               className={`w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 ${
                 isDeleting ? 'opacity-50 pointer-events-none' : ''
               }`}
@@ -310,10 +311,7 @@ export default function ExpensesTable() {
       />
 
       {/* Drawer lives once at the root of the page */}
-      <SummaryDrawer
-        open={openSummary}
-        onOpenChange={setOpenSummary}
-      />
+      <SummaryDrawer open={openSummary} onOpenChange={setOpenSummary} />
     </div>
   );
 }
