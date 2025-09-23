@@ -1,317 +1,399 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../components/ui/table';
-import {
-  useGetExpensesQuery,
-  useDeleteExpenseMutation,
-} from '../stores/apiSlice';
-import { Expense } from '../types/apiSlice';
-import { useState } from 'react';
-import { Plus, List, Trash2, Loader2 } from 'lucide-react';
-import DeleteConfirmationModal from '../components/hook/DeleteConfirmationModal';
-import useDeleteConfirmation from '../hook/useConfirmationDelete';
-import { handleFetchBaseQueryError } from '../utils/errorFactory';
-import useToast from '../hook/useToast';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import ExpenseInfoDialog from '../components/home/ExpenseInfoDialog';
-import ExpenseFormDialog from '../components/home/ExpenseFormDialog';
-import SummaryDrawer from '../components/home/SummaryDrawer';
-import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import StarBackground from '../components/home/StarBackground';
+import profileImg from '../assets/img/Profile.png';
 
-export default function ExpensesTable() {
-  const { showSuccessToast, showErrorToast } = useToast();
+const skills = [
+  {
+    name: 'HTML5',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+  },
+  {
+    name: 'CSS3',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
+  },
+  {
+    name: 'TailwindCSS',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
+  },
+  {
+    name: 'MaterialUI',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg',
+  },
+  {
+    name: 'React JS',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+  },
+  {
+    name: 'Next.js',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
+  },
+  {
+    name: 'Node.js',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+  },
+  {
+    name: 'Express.js',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
+  },
+  {
+    name: 'PostgreSQL',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+  },
+  {
+    name: 'MongoDB',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
+  },
+  {
+    name: 'DynamoDB',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynamodb/dynamodb-original.svg',
+  },
+  {
+    name: 'JavaScript',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+  },
+  {
+    name: 'TypeScript',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+  },
+  {
+    name: 'GitHub',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+  },
+  {
+    name: 'GitLab',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg',
+  },
+  {
+    name: 'Figma',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg',
+  },
+  {
+    name: 'Postman',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg',
+  },
+  {
+    name: 'VS Code',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
+  },
+];
+export default function HomePage() {
+  const [current, setCurrent] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
 
-  const [search, setSearch] = useState('');
-  const { data, isLoading, isError, refetch } = useGetExpensesQuery(
-    search ? { search } : undefined
-  );
-  const expenses: Expense[] = data?.data || [];
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>('section');
 
-  // dialog state
-  const [infoExpense, setInfoExpense] = useState<Expense | null>(null);
-  const [formExpense, setFormExpense] = useState<Expense | null>(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [openSummary, setOpenSummary] = useState(false);
+    const handleWheel = (e: WheelEvent) => {
+      if (isLocked) return;
 
-  // delete confirmation
-  const {
-    isModalOpen: isDeleteModalOpen,
-    openModal: openDeleteModal,
-    closeModal: closeDeleteModal,
-    confirmDelete,
-    setConfirmCallback: setDeleteConfirmCallback,
-  } = useDeleteConfirmation();
-  const [deleteExpense] = useDeleteExpenseMutation();
-
-  // bulk delete
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const allChecked =
-    expenses.length > 0 && selectedIds.length === expenses.length;
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const toggleCheck = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  };
-
-  const toggleCheckAll = () => {
-    setSelectedIds(allChecked ? [] : expenses.map((e) => e.id));
-  };
-
-  const handleBulkDelete = async () => {
-    if (selectedIds.length === 0) return;
-    setIsDeleting(true);
-    try {
-      setDeleteConfirmCallback(async () => {
-        await Promise.all(selectedIds.map((id) => deleteExpense(id).unwrap()));
-        showSuccessToast(`Deleted ${selectedIds.length} items successfully!`);
-        setSelectedIds([]);
-        await refetch();
-      });
-      openDeleteModal();
-    } catch (error) {
-      const errorMessage = handleFetchBaseQueryError(
-        error as FetchBaseQueryError,
-        'Invalid request!',
-        true
-      );
-      showErrorToast(`${errorMessage}`);
-    } finally {
-      setIsDeleting(false);
-    }
-  };
-
-  const handleDeleteSingle = (id: string) => {
-    if (!id) return;
-    setDeleteConfirmCallback(async () => {
-      setIsDeleting(true);
-      try {
-        await deleteExpense(id).unwrap();
-         showSuccessToast(`Item deleted successfully!`);
-        await refetch();
-        setInfoExpense(null);
-      } catch (error) {
-        const errorMessage = handleFetchBaseQueryError(
-          error as FetchBaseQueryError,
-          'Invalid request!',
-          true
-        );
-        showErrorToast(`${errorMessage}`);
-      } finally {
-        setIsDeleting(false);
+      if (e.deltaY > 0 && current < sections.length - 1) {
+        setCurrent((prev) => prev + 1);
+        lockScroll();
+      } else if (e.deltaY < 0 && current > 0) {
+        setCurrent((prev) => prev - 1);
+        lockScroll();
       }
-    });
-    openDeleteModal();
+    };
+
+    const lockScroll = () => {
+      setIsLocked(true);
+      setTimeout(() => setIsLocked(false), 100);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [current, isLocked]);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>('section');
+    sections[current]?.scrollIntoView({ behavior: 'smooth' });
+
+    // Show header after leaving the first section
+    setShowHeader(current > 0);
+  }, [current]);
+
+  const handleNavClick = (index: number) => {
+    setCurrent(index);
   };
 
   return (
-    <div className='max-w-screen-xl mx-auto px-6 relative'>
-      <div className='bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden'>
-        {/* Header */}
-        <div className='px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4'>
-          <h2 className='text-xl font-semibold text-gray-800 dark:text-gray-100'>
-            Expense Records
-          </h2>
+    <div className='h-screen w-full overflow-hidden relative'>
+      {/* 🌌 Background */}
+      <StarBackground />
 
-          <div className='flex-1 flex justify-center'>
-            <input
-              type='text'
-              placeholder='Search expenses...'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              disabled={isDeleting}
-              data-testid='search-bar'
-              className='w-full max-w-xs px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 disabled:opacity-50'
+      {showHeader && (
+        <header className='fixed top-0 left-0 w-full bg-black/60 backdrop-blur-md text-white z-50 shadow-lg'>
+          <div className='max-w-6xl mx-auto flex justify-between items-center px-6 py-4'>
+            {/* Left side nav */}
+            <nav className='flex gap-6 text-lg font-medium'>
+              <button
+                onClick={() => handleNavClick(0)}
+                className='hover:text-purple-400 transition'
+              >
+                Home
+              </button>
+              <button
+                onClick={() => handleNavClick(1)}
+                className='hover:text-purple-400 transition'
+              >
+                About
+              </button>
+              <button
+                onClick={() => handleNavClick(2)}
+                className='hover:text-purple-400 transition'
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => handleNavClick(3)}
+                className='hover:text-purple-400 transition'
+              >
+                Contact
+              </button>
+            </nav>
+
+            {/* Right side social links + resume */}
+            <div className='flex items-center gap-4'>
+              <a
+                href='https://github.com/jaskin21'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='hover:text-purple-400 transition'
+              >
+                GitHub
+              </a>
+              <a
+                href='https://www.linkedin.com/in/renz-jaskin-agmata-03284a18a/'
+                target='_blank'
+                className='hover:text-purple-400 transition'
+              >
+                LinkedIn
+              </a>
+              <a
+                href='/Renz-Jaskin-Agmata-CV.pdf'
+                download='Renz-Jaskin-Agmata-CV.pdf'
+                className='px-4 py-2 bg-purple-600 hover:bg-purple-800 rounded-lg shadow-md text-sm font-semibold transition'
+              >
+                Download CV
+              </a>
+            </div>
+          </div>
+        </header>
+      )}
+
+      {/* 🏠 Home Section */}
+      <section className='h-screen flex items-center justify-center relative z-10 bg-gradient-to-b from-black/70 to-purple-900/40'>
+        <div className='text-center text-white max-w-3xl mx-auto'>
+          <h1 className='text-6xl font-extrabold mb-6'>Hi, I’m Renz Jaskin</h1>
+          <p className='text-2xl text-gray-300 mb-10'>
+            Fullstack Developer | MERN + AWS Serverless
+          </p>
+          <button
+            onClick={() => handleNavClick(2)}
+            className='px-8 py-4 bg-purple-600 hover:bg-purple-800 rounded-xl shadow-lg text-lg font-semibold transition'
+          >
+            View My Work
+          </button>
+        </div>
+      </section>
+
+      {/* 👨‍💻 About Me Section */}
+      <section className='h-screen flex items-center justify-center text-white relative z-10 bg-gradient-to-b from-purple-900/50 to-indigo-800/40 px-6'>
+        <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
+          {/* Left: Image + About Me */}
+          <div className='text-center md:text-left'>
+            <img
+              src={profileImg}
+              alt='Renz Jaskin Agmata'
+              className='w-56 h-56 md:w-64 md:h-64 rounded-full mx-auto md:mx-0 mb-8 border-4 border-purple-500 shadow-lg'
             />
+
+            <h2 className='text-5xl font-bold mb-6'>About Me</h2>
+            <p className='text-xl text-gray-300 font-medium leading-relaxed md:leading-loose'>
+              Full-Stack Developer with expertise in building responsive
+              applications using Next.js, React, and Node.js. Proficient in
+              RESTful API design, CI/CD automation, and front-end/back-end
+              integration. Experienced in testing and dedicated to code quality
+              with GitHub version control.
+            </p>
           </div>
 
-          <div className='flex items-center gap-4'>
-            <button
-              onClick={handleBulkDelete}
-              disabled={isDeleting || selectedIds.length === 0}
-              data-testid='bulk-delete'
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 disabled:opacity-50 transition-all
-                ${selectedIds.length === 0 ? 'invisible' : 'visible'}`}
-            >
-              {isDeleting ? (
-                <>
-                  <Loader2 className='w-4 h-4 animate-spin' />
-                  <span className='hidden sm:inline'>Deleting...</span>
-                </>
-              ) : (
-                <>
-                  <Trash2 className='w-4 h-4' />
-                  <span className='hidden sm:inline'>Delete Selected</span>
-                </>
-              )}
-            </button>
-            <span className='text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap'>
-              Total Records: {expenses.length}
-            </span>
+          {/* Right: Skills */}
+          <div className='flex flex-col items-center gap-y-10 scale-125'>
+            <div className='flex gap-x-10'>
+              {skills.slice(0, 4).map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
+            <div className='flex gap-x-10'>
+              {skills.slice(4, 8).map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
+            <div className='flex gap-x-10'>
+              {skills.slice(8, 12).map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
+            <div className='flex gap-x-10'>
+              {skills.slice(12, 16).map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
+            <div className='flex gap-x-10'>
+              {skills.slice(16, 18).map((skill) => (
+                <SkillItem key={skill.name} {...skill} />
+              ))}
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Table */}
-        <div className='overflow-x-auto'>
-          <Table className={isDeleting ? 'opacity-50 pointer-events-none' : ''}>
-            <TableHeader>
-              <TableRow className='bg-gray-100 dark:bg-gray-800'>
-                <TableHead className='px-4 py-4'>
-                  <input
-                    type='checkbox'
-                    checked={allChecked}
-                    onChange={toggleCheckAll}
-                    disabled={isDeleting}
-                  />
-                </TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead>Updated</TableHead>
-                <TableHead>Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading && (
-                <TableRow>
-                  <TableCell colSpan={5} className='text-center py-10'>
-                    Loading expenses...
-                  </TableCell>
-                </TableRow>
-              )}
-              {isError && (
-                <TableRow>
-                  <TableCell
-                    colSpan={5}
-                    className='text-center py-10 text-red-500'
-                  >
-                    Failed to load expenses.
-                  </TableCell>
-                </TableRow>
-              )}
-              {!isLoading &&
-                !isError &&
-                expenses.map((expense) => (
-                  <TableRow
-                    key={expense.id}
-                    data-testid={`expense-row-${expense.id}`}
-                    onClick={() => setInfoExpense(expense)}
-                    className='hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer'
-                  >
-                    <TableCell className='px-4 py-4'>
-                      <input
-                        type='checkbox'
-                        checked={selectedIds.includes(expense.id)}
-                        disabled={isDeleting}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={() => toggleCheck(expense.id)}
-                      />
-                    </TableCell>
-                    <TableCell>{expense.description}</TableCell>
-                    <TableCell>{expense.category}</TableCell>
-                    <TableCell>
-                      {format(new Date(expense.createdAt), 'MMMM d, yyyy')}
-                    </TableCell>
-                    <TableCell>
-                      {format(new Date(expense.updatedAt), 'MMMM d, yyyy')}
-                    </TableCell>
-                    <TableCell>
-                      <TableCell>
-                        <TableCell>
-                          {expense.amount.toLocaleString('en-PH', {
-                            style: 'currency',
-                            currency: 'PHP',
-                          })}
-                        </TableCell>
-                      </TableCell>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              {!isLoading && !isError && expenses.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className='text-center py-10'>
-                    No expenses found.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+      {/* 📂 Projects Section */}
+      <section className='h-screen flex items-center justify-center text-white relative z-10 bg-gradient-to-b from-indigo-800/50 to-black/60'>
+        <h1 className='text-5xl font-bold'>Projects</h1>
+      </section>
+
+      {/* ✉️ Contact Section */}
+      <section className='h-screen flex flex-col items-center justify-between text-white relative z-10 bg-gradient-to-b from-black/70 to-purple-900/40 px-6 py-10'>
+        {/* Center content */}
+        <div className='flex flex-col items-center justify-center flex-grow w-full max-w-5xl'>
+          <h2 className='text-5xl font-bold mb-4'>Contact</h2>
+          <div className='w-24 h-1 bg-purple-500 rounded-full mb-8'></div>
+
+          <p className='text-xl text-gray-300 font-medium text-center leading-relaxed md:leading-loose mb-10'>
+            Let’s connect! Fill out the form below or reach me through my
+            contact details.
+          </p>
+
+          <div className='grid md:grid-cols-2 gap-12 w-full'>
+            {/* 📩 Contact Form */}
+            <form
+              action='https://formsubmit.co/b690c0be2522da1b736c8247fd7ec67d'
+              method='POST'
+              target='_blank'
+              className='flex flex-col gap-4 p-8 rounded-2xl shadow-xl bg-white/5  border border-purple-500/30'
+            >
+              <input
+                type='text'
+                name='name'
+                placeholder='Your Name'
+                required
+                className='p-3 rounded-md bg-gray-900/70 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition'
+              />
+              <input
+                type='email'
+                name='email'
+                placeholder='Your Email'
+                required
+                className='p-3 rounded-md bg-gray-900/70 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition'
+              />
+              <input
+                type='tel'
+                name='contact'
+                placeholder='Contact Number'
+                required
+                className='p-3 rounded-md bg-gray-900/70 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition'
+              />
+              <textarea
+                name='message'
+                placeholder='Your Message'
+                required
+                rows={5}
+                className='p-3 rounded-md bg-gray-900/70 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition'
+              ></textarea>
+
+              <input
+                type='submit'
+                value='Send Message 🚀'
+                className='cursor-pointer px-6 py-3 bg-purple-600 hover:bg-purple-800 rounded-md font-semibold transition shadow-md hover:shadow-purple-500/30'
+              />
+            </form>
+
+            {/* 📞 Contact Information */}
+            <div className='space-y-6 border border-purple-500/30 bg-white/5  p-8 rounded-2xl shadow-xl'>
+              <h3 className='text-3xl font-bold mb-4'>Contact Information</h3>
+              <div className='space-y-4 text-gray-300 text-lg'>
+                <p className='flex items-center gap-3'>
+                  <span className='text-purple-400'>📱</span> +63-938-029-6142
+                  (Smart)
+                </p>
+                <p className='flex items-center gap-3'>
+                  <span className='text-purple-400'>💬</span> +63-938-029-6142
+                  (Telegram)
+                </p>
+                <p className='flex items-center gap-3'>
+                  <span className='text-purple-400'>📞</span> +63-938-029-6142
+                  (Viber)
+                </p>
+                <p className='flex items-center gap-3'>
+                  <span className='text-purple-400'>✉️</span>{' '}
+                  jaskin.agmata@gmail.com
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Footer */}
-        <div className='px-6 py-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between relative'>
-          <span className='text-sm text-gray-500 dark:text-gray-400'>
-            Last updated:{' '}
-            {format(new Date(), 'MMMM d, yyyy @h:mm a')}
-          </span>
-          <div className='flex gap-3 absolute right-6 top-1/2 transform -translate-y-1/2'>
-            <button
-              disabled={isDeleting}
-              onClick={() => {
-                setFormExpense(null);
-                setIsFormOpen(true);
-              }}
-              data-testid='add-expense'
-              className={`w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 ${
-                isDeleting ? 'opacity-50 pointer-events-none' : ''
-              }`}
-            >
-              <Plus className='w-5 h-5' />
-            </button>
-            <button
-              disabled={isDeleting}
-              onClick={() => setOpenSummary(true)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 text-white shadow-lg hover:bg-gray-700 ${
-                isDeleting ? 'opacity-50 pointer-events-none' : ''
-              }`}
-            >
-              <List className='w-5 h-5' />
-            </button>
+        <footer className='w-full border-t border-purple-500/20 mt-12 pt-6 px-6'>
+          <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-gray-400 text-sm'>
+            {/* Left */}
+            <div className='text-center md:text-left'>
+              <p className='font-semibold text-white'>Renz Jaskin Agmata</p>
+              <p>Software Engineer</p>
+            </div>
+
+            {/* Center */}
+            <div className='flex gap-6'>
+              <a
+                href='https://github.com/jaskin21'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='hover:text-purple-400 transition'
+              >
+                GitHub
+              </a>
+              <a
+                href='https://www.linkedin.com/in/renz-jaskin-agmata-03284a18a/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='hover:text-purple-400 transition'
+              >
+                LinkedIn
+              </a>
+              <a
+                href='./assets/doc/Renz-jaskin_Agmata-CV.pdf'
+                target='_blank'
+                download
+                className='hover:text-purple-400 transition'
+              >
+                Resume
+              </a>
+            </div>
+
+            {/* Right */}
+            <div className='text-center md:text-right text-xs text-gray-500'>
+              © {new Date().getFullYear()} Renz Jaskin Agmata. All rights
+              reserved.
+            </div>
           </div>
-        </div>
-      </div>
+        </footer>
+      </section>
+    </div>
+  );
+}
 
-      {/* Info Dialog */}
-      {infoExpense && (
-        <ExpenseInfoDialog
-          expense={infoExpense}
-          onClose={() => setInfoExpense(null)}
-          onEdit={() => {
-            setFormExpense(infoExpense);
-            setInfoExpense(null);
-            setIsFormOpen(true);
-          }}
-          onDelete={() => handleDeleteSingle(infoExpense.id)}
-        />
-      )}
-
-      {/* Form Dialog */}
-      <ExpenseFormDialog
-        open={isFormOpen}
-        onClose={() => setIsFormOpen(false)}
-        expense={formExpense}
-        onSaved={() => {
-          setIsFormOpen(false);
-          refetch();
-        }}
+function SkillItem({ name, logo }: { name: string; logo: string }) {
+  return (
+    <div className='flex flex-col items-center text-center group'>
+      <img
+        src={logo}
+        alt={name}
+        className='w-12 h-12 mb-2 transition-transform group-hover:scale-110'
       />
-
-      {/* Delete Confirmation */}
-      <DeleteConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onClose={closeDeleteModal}
-        onConfirm={() => confirmDelete()}
-        message='Are you sure you want to delete this item?'
-      />
-
-      {/* Drawer lives once at the root of the page */}
-      <SummaryDrawer open={openSummary} onOpenChange={setOpenSummary} />
+      <span className='text-sm font-medium'>{name}</span>
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { store } from './stores/store';
-import Layout from './features/layout/Layout';
 import Loading from './pages/Loading';
 
 // Utility to delay lazy loading (for testing/demo purposes)
@@ -34,9 +33,7 @@ export default function App() {
         <ToastContainer />
         <Suspense fallback={<Loading />}>
           <Routes>
-            <Route path='/' element={<Layout />}>
-              <Route index element={<HomePage />} />
-            </Route>
+            <Route path='/' element={<HomePage />} />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Suspense>

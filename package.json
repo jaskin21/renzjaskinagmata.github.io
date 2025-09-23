@@ -23,6 +23,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "flowbite-react": "^0.10.2",
+    "framer-motion": "^12.23.18",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.542.0",
     "node-ipinfo": "^3.5.3",
