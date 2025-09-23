@@ -340,13 +340,12 @@ export default function HomePage() {
         <footer className='w-full border-t border-purple-500/20 mt-12 pt-6 px-6'>
           <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-gray-400 text-sm'>
             {/* Left */}
-            <div className='text-center md:text-left'>
-              <p className='font-semibold text-white'>Renz Jaskin Agmata</p>
+            <div className='flex gap-6 md:text-left'>
+              {/* <p className='font-semibold text-white'>Renz Jaskin Agmata</p>
               <p>Software Engineer</p>
             </div>
 
-            {/* Center */}
-            <div className='flex gap-6'>
+            <div className='flex gap-6'> */}
               <a
                 href='https://github.com/jaskin21'
                 target='_blank'
