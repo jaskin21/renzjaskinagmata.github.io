@@ -3,80 +3,8 @@ import StarBackground from '../components/home/StarBackground';
 import profileImg from '../assets/img/Profile.png';
 import ProjectsShowcase from '@/components/home/ProjectShowcase';
 
-const skills = [
-  {
-    name: 'HTML5',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
-  },
-  {
-    name: 'CSS3',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
-  },
-  {
-    name: 'TailwindCSS',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
-  },
-  {
-    name: 'MaterialUI',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg',
-  },
-  {
-    name: 'React JS',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-  },
-  {
-    name: 'Next.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
-  },
-  {
-    name: 'Node.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-  },
-  {
-    name: 'Express.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
-  },
-  {
-    name: 'PostgreSQL',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-  },
-  {
-    name: 'MongoDB',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
-  },
-  {
-    name: 'DynamoDB',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynamodb/dynamodb-original.svg',
-  },
-  {
-    name: 'JavaScript',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-  },
-  {
-    name: 'TypeScript',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
-  },
-  {
-    name: 'GitHub',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
-  },
-  {
-    name: 'GitLab',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg',
-  },
-  {
-    name: 'Figma',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg',
-  },
-  {
-    name: 'Postman',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg',
-  },
-  {
-    name: 'VS Code',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
-  },
-];
+import skills from '../assets/link/logo';
+
 export default function HomePage() {
   const [current, setCurrent] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
@@ -390,11 +318,15 @@ export default function HomePage() {
 
 function SkillItem({ name, logo }: { name: string; logo: string }) {
   return (
-    <div className='flex flex-col items-center text-center group'>
+    <div className='flex flex-col items-center text-center transition-transform duration-300 hover:scale-125'>
       <img
         src={logo}
         alt={name}
-        className='w-12 h-12 mb-2 transition-transform group-hover:scale-110'
+        className={`w-12 h-12 mb-2 transition-transform ${
+          name === 'Express.js' || name === 'GitHub' 
+            ? 'filter invert'
+            : ''
+        }`}
       />
       <span className='text-sm font-medium'>{name}</span>
     </div>

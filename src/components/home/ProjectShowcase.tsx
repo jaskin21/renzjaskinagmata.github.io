@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import skills from '../../assets/link/logo';
 
 const projects = [
   {
@@ -10,6 +11,16 @@ const projects = [
     previewUrl: '#',
     frontendUrl: 'https://github.com/jaskin21/daily-expenses-FE',
     backendUrl: 'https://github.com/jaskin21/daily-expenses-BE',
+    fullstackUrl: '',
+    techStack: [
+      'Node.js',
+      'JavaScript',
+      'TypeScript',
+      'TailwindCSS',
+      'React JS',
+      'Express.js',
+      'DynamoDB',
+    ], // this is required for logos at the bottom
   },
   {
     title: 'Geo Location App',
@@ -18,28 +29,37 @@ const projects = [
     image: '/images/ipAddressSearch.png',
     previewUrl: '#',
     frontendUrl: 'https://github.com/jaskin21/geo-location-app',
+    techStack: [
+      'Node.js',
+      'JavaScript',
+      'TypeScript',
+      'TailwindCSS',
+      'React JS',
+      'Express.js',
+      'MongoDB',
+    ], // this is required for logos at the bottom
   },
-  //   {
-  //     title: 'Project 3',
-  //     description: 'Short description of project 3.',
-  //     image: '/images/Project3.png',
-  //     previewUrl: '#',
-  //     backendUrl: '#',
-  //   },
-  //   {
-  //     title: 'Project 3',
-  //     description: 'Short description of project 3.',
-  //     image: '/images/Project3.png',
-  //     previewUrl: '#',
-  //     backendUrl: '#',
-  //   },
-  //   {
-  //     title: 'Project 3',
-  //     description: 'Short description of project 3.',
-  //     image: '/images/Project3.png',
-  //     previewUrl: '#',
-  //     backendUrl: '#',
-  //   },
+  // {
+  //   title: 'Project 3',
+  //   description: 'Short description of project 3.',
+  //   image: '/images/Project3.png',
+  //   previewUrl: '#',
+  //   backendUrl: '#',
+  // },
+  // {
+  //   title: 'Project 3',
+  //   description: 'Short description of project 3.',
+  //   image: '/images/Project3.png',
+  //   previewUrl: '#',
+  //   backendUrl: '#',
+  // },
+  // {
+  //   title: 'Project 3',
+  //   description: 'Short description of project 3.',
+  //   image: '/images/Project3.png',
+  //   previewUrl: '#',
+  //   backendUrl: '#',
+  // },
 ];
 
 export default function ProjectsShowcase({
@@ -94,9 +114,10 @@ export default function ProjectsShowcase({
   return (
     <section className='h-screen flex flex-col items-center justify-center text-white relative bg-gradient-to-b from-indigo-800/50 to-black/60 px-6 overflow-hidden'>
       {/* Title - non-blocking */}
-      <h1 className='text-5xl font-bold mb-20 text-center pointer-events-none z-10 relative'>
+      <h1 className='text-5xl font-bold mb-4 text-center pointer-events-none z-10 relative'>
         Projects
       </h1>
+      <div className='w-24 h-1 bg-purple-500 rounded-full  mb-20'></div>
 
       {/* Showcase */}
       <div
@@ -115,91 +136,126 @@ export default function ProjectsShowcase({
                 backgroundColor:
                   i === index
                     ? pageScrollEnabled
-                      ? 'rgba(139,92,246,0.15)' // active but scroll enabled
-                      : 'rgba(139,92,246, 0.25)' // active & focused
-                    : 'rgba(255,255,255,0.05)', // inactive cards
+                      ? 'rgba(139,92,246,0.15)'
+                      : 'rgba(139,92,246, 0.25)'
+                    : 'rgba(255,255,255,0.05)',
               }}
               transition={{ duration: 0.55, ease: 'easeOut' }}
-              className={`absolute border p-3 pb-10 rounded-xl shadow-xl flex flex-col items-center justify-start cursor-pointer ${
+              className={`absolute border p-5 rounded-xl shadow-xl flex flex-col cursor-pointer ${
                 i === index ? 'border-gray-400/25' : 'border-transparent'
               }`}
               style={{
                 zIndex: pos.zIndex,
-                width: pos.scale > 1 ? 600 : 600, //this must be the same ratio as image height
-                height: pos.scale > 1 ? 550 : 550, //this must be the same ratio as image height
+                width: 600,
+                height: 550,
               }}
               onClick={() => setIndex(i)}
             >
-              <img
-                src={project.image}
-                alt={project.title}
-                className='w-full h-[300px] object-contain rounded-lg mb-6 bg-black'
-              />
+              {/* Image Wrapper with group hover */}
+              <div className='relative w-full h-[300px] group'>
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className='w-full h-full object-cover rounded-lg bg-black'
+                />
+
+                {/* Overlay Links */}
+                <div
+                  className={`absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 rounded-lg opacity-0 transition-opacity duration-300 ${
+                    i === index ? 'group-hover:opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  {project.previewUrl && (
+                    <a
+                      href={project.previewUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 text-sm font-medium text-white border border-white/40 rounded-md hover:bg-white hover:text-black transition'
+                    >
+                      🔗 Live Preview
+                    </a>
+                  )}
+
+                  {project.frontendUrl && project.backendUrl ? (
+                    <>
+                      <a
+                        href={project.frontendUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='px-4 py-2 text-sm font-medium text-white border border-white/40 rounded-md hover:bg-white hover:text-black transition'
+                      >
+                        💻 Frontend Code
+                      </a>
+
+                      <a
+                        href={project.backendUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='px-4 py-2 text-sm font-medium text-white border border-white/40 rounded-md hover:bg-white hover:text-black transition'
+                      >
+                        ⚙️ Backend Code
+                      </a>
+                    </>
+                  ) : project.frontendUrl || project.backendUrl ? (
+                    <a
+                      href={project.frontendUrl || project.backendUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='px-4 py-2 text-sm font-medium text-white border border-white/40 rounded-md hover:bg-white hover:text-black transition'
+                    >
+                      📂 View Code
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+
+              {/* Title */}
               <h2
-                className={`text-gray-300 text-center mb-4 font-bold text-lg ${
+                className={`text-gray-300 text-center mt-4 font-bold text-lg ${
                   i === index ? 'opacity-100' : 'opacity-40'
                 }`}
               >
                 {project.title}
               </h2>
+
+              {/* Description */}
               <p
-                className={`text-gray-300 mb-4 text-[13px] text-justify px-8 ${
+                className={`text-gray-300 mt-2 mb-4 text-[13px] text-justify px-6 ${
                   i === index ? 'opacity-100' : 'opacity-20'
                 }`}
               >
                 {project.description}
               </p>
 
-              {/* Buttons */}
-
+              {/* Logos - Bottom */}
               <div
-                className={`flex gap-4 mt-auto ${
+                className={`flex flex-wrap justify-center gap-4 mt-auto pb-5 ${
                   i === index ? 'opacity-100' : 'opacity-20 pointer-events-none'
                 }`}
               >
-                {project.previewUrl && (
-                  <a
-                    href={project.previewUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='w-32 px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-base text-center'
-                  >
-                    Preview
-                  </a>
-                )}
+                {project.techStack?.map((tech, idx) => {
+                  const skill = skills.find((s) => s.name === tech); // match by name
+                  if (!skill) return null; // skip if not found
 
-                {/* Conditional Code Buttons */}
-                {project.frontendUrl && project.backendUrl ? (
-                  <>
-                    {/* FE Code */}
-                    <a
-                      href={project.frontendUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='w-32 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition text-base text-center'
-                    >
-                      FE Code
-                    </a>
-                    {/* BE Code */}
-                    <a
-                      href={project.backendUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='w-32 px-4 py-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition text-base text-center'
-                    >
-                      BE Code
-                    </a>
-                  </>
-                ) : project.frontendUrl || project.backendUrl ? (
-                  <a
-                    href={project.frontendUrl || project.backendUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='w-32 px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-base text-center'
-                  >
-                    View Code
-                  </a>
-                ) : null}
+                  return (
+                    <div className='flex flex-col items-center text-center transition-transform duration-300 hover:scale-125'>
+                      <img
+                        key={idx}
+                        src={skill.logo}
+                        alt={skill.name}
+                        className={`w-7 h-7 object-contain ${
+                          skill.name === 'Express.js' || skill.name === 'GitHub'
+                            ? 'filter invert'
+                            : ''
+                        }`}
+                        title={skill.name}
+                      />
+                      <span className='mt-1 text-[8px] font-medium'>
+                        {skill.name}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           );
