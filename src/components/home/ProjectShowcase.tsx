@@ -17,7 +17,7 @@ const projects = [
       'Geo Location App that helps users look up location details by entering an IP address. The app records every search in a history list, allowing users to quickly revisit past lookups. It also includes a bookmarking feature, so important searches can be saved and accessed anytime through a convenient side drawer.',
     image: '/images/ipAddressSearch.png',
     previewUrl: '#',
-    backendUrl: '#',
+    frontendUrl: 'https://github.com/jaskin21/geo-location-app',
   },
   //   {
   //     title: 'Project 3',
