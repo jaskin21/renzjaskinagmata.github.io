@@ -1,0 +1,222 @@
+import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+
+const projects = [
+  {
+    title: 'Track Expense App',
+    description:
+      'Track Expense App to help users manage their finances. It lets you add, edit, delete, and view expenses, with the option to filter by date range. A built-in pie chart shows the percentage breakdown of spending, making it easy to see where your money goes at a glance.',
+    image: '/images/track-expenses.png',
+    previewUrl: '#',
+    frontendUrl: 'https://github.com/jaskin21/daily-expenses-FE',
+    backendUrl: 'https://github.com/jaskin21/daily-expenses-BE',
+  },
+  {
+    title: 'Geo Location App',
+    description:
+      'Geo Location App that helps users look up location details by entering an IP address. The app records every search in a history list, allowing users to quickly revisit past lookups. It also includes a bookmarking feature, so important searches can be saved and accessed anytime through a convenient side drawer.',
+    image: '/images/ipAddressSearch.png',
+    previewUrl: '#',
+    backendUrl: '#',
+  },
+  //   {
+  //     title: 'Project 3',
+  //     description: 'Short description of project 3.',
+  //     image: '/images/Project3.png',
+  //     previewUrl: '#',
+  //     backendUrl: '#',
+  //   },
+  //   {
+  //     title: 'Project 3',
+  //     description: 'Short description of project 3.',
+  //     image: '/images/Project3.png',
+  //     previewUrl: '#',
+  //     backendUrl: '#',
+  //   },
+  //   {
+  //     title: 'Project 3',
+  //     description: 'Short description of project 3.',
+  //     image: '/images/Project3.png',
+  //     previewUrl: '#',
+  //     backendUrl: '#',
+  //   },
+];
+
+export default function ProjectsShowcase({
+  setPageScrollEnabled,
+  pageScrollEnabled,
+}: {
+  setPageScrollEnabled: (enabled: boolean) => void;
+  pageScrollEnabled: boolean;
+}) {
+  const [index, setIndex] = useState(0);
+  const showcaseRef = useRef<HTMLDivElement>(null);
+
+  // --- wheel navigation ---
+  useEffect(() => {
+    if (pageScrollEnabled) return;
+
+    let lastTime = 0;
+    const throttleMs = 180;
+
+    const handleWheel = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now - lastTime < throttleMs) return;
+      lastTime = now;
+
+      if (e.deltaY > 0 && index < projects.length - 1) {
+        setIndex((i) => Math.min(projects.length - 1, i + 1));
+      } else if (e.deltaY < 0 && index > 0) {
+        setIndex((i) => Math.max(0, i - 1));
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [pageScrollEnabled, index]);
+
+  // --- calculate carousel position ---
+  const getPosition = (i: number, current: number) => {
+    const offset = i - current;
+
+    if (offset === 0) {
+      // active (center) card — bigger
+      return { x: 0, scale: 1.2, opacity: 1, zIndex: 40 };
+    }
+    if (offset === -1 || offset === 1) {
+      // left or right neighbor
+      return { x: offset * 350, scale: 1, opacity: 0.6, zIndex: 20 };
+    }
+    // far items
+    return { x: offset * 300, scale: 0.8, opacity: 0.2, zIndex: 10 };
+  };
+
+  return (
+    <section className='h-screen flex flex-col items-center justify-center text-white relative bg-gradient-to-b from-indigo-800/50 to-black/60 px-6 overflow-hidden'>
+      {/* Title - non-blocking */}
+      <h1 className='text-5xl font-bold mb-20 text-center pointer-events-none z-10 relative'>
+        Projects
+      </h1>
+
+      {/* Showcase */}
+      <div
+        ref={showcaseRef}
+        onMouseEnter={() => setPageScrollEnabled(false)}
+        onMouseLeave={() => setPageScrollEnabled(true)}
+        className='relative w-full max-w-6xl h-[550px] flex items-center justify-center overflow-visible z-20'
+      >
+        {projects.map((project, i) => {
+          const pos = getPosition(i, index);
+          return (
+            <motion.div
+              key={i}
+              animate={{
+                ...pos,
+                backgroundColor:
+                  i === index
+                    ? pageScrollEnabled
+                      ? 'rgba(139,92,246,0.15)' // active but scroll enabled
+                      : 'rgba(139,92,246, 0.25)' // active & focused
+                    : 'rgba(255,255,255,0.05)', // inactive cards
+              }}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
+              className={`absolute border p-3 pb-10 rounded-xl shadow-xl flex flex-col items-center justify-start cursor-pointer ${
+                i === index ? 'border-gray-400/25' : 'border-transparent'
+              }`}
+              style={{
+                zIndex: pos.zIndex,
+                width: pos.scale > 1 ? 600 : 600, //this must be the same ratio as image height
+                height: pos.scale > 1 ? 550 : 550, //this must be the same ratio as image height
+              }}
+              onClick={() => setIndex(i)}
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                className='w-full h-[300px] object-contain rounded-lg mb-6 bg-black'
+              />
+              <h2
+                className={`text-gray-300 text-center mb-4 font-bold text-lg ${
+                  i === index ? 'opacity-100' : 'opacity-40'
+                }`}
+              >
+                {project.title}
+              </h2>
+              <p
+                className={`text-gray-300 mb-4 text-[13px] text-justify px-8 ${
+                  i === index ? 'opacity-100' : 'opacity-20'
+                }`}
+              >
+                {project.description}
+              </p>
+
+              {/* Buttons */}
+
+              <div
+                className={`flex gap-4 mt-auto ${
+                  i === index ? 'opacity-100' : 'opacity-20 pointer-events-none'
+                }`}
+              >
+                {project.previewUrl && (
+                  <a
+                    href={project.previewUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='w-32 px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-base text-center'
+                  >
+                    Preview
+                  </a>
+                )}
+
+                {/* Conditional Code Buttons */}
+                {project.frontendUrl && project.backendUrl ? (
+                  <>
+                    {/* FE Code */}
+                    <a
+                      href={project.frontendUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='w-32 px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition text-base text-center'
+                    >
+                      FE Code
+                    </a>
+                    {/* BE Code */}
+                    <a
+                      href={project.backendUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='w-32 px-4 py-2 rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition text-base text-center'
+                    >
+                      BE Code
+                    </a>
+                  </>
+                ) : project.frontendUrl || project.backendUrl ? (
+                  <a
+                    href={project.frontendUrl || project.backendUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='w-32 px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition text-base text-center'
+                  >
+                    View Code
+                  </a>
+                ) : null}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Page indicator - non-blocking */}
+      <div className='flex gap-2 mt-20 pointer-events-none relative z-10'>
+        {projects.map((_, i) => (
+          <span
+            key={i}
+            className={`w-3 h-3 rounded-full ${
+              i === index ? 'bg-purple-500' : 'bg-gray-500/50'
+            }`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}

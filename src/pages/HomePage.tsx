@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import StarBackground from '../components/home/StarBackground';
 import profileImg from '../assets/img/Profile.png';
+import ProjectsShowcase from '@/components/home/ProjectShowcase';
 
 const skills = [
   {
@@ -80,11 +81,13 @@ export default function HomePage() {
   const [current, setCurrent] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
+  const [pageScrollEnabled, setPageScrollEnabled] = useState(true);
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('section');
 
     const handleWheel = (e: WheelEvent) => {
+      if (!pageScrollEnabled) return; // 🚫 skip when disabled
       if (isLocked) return;
 
       if (e.deltaY > 0 && current < sections.length - 1) {
@@ -103,7 +106,7 @@ export default function HomePage() {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [current, isLocked]);
+  }, [current, isLocked, pageScrollEnabled]);
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('section');
@@ -251,9 +254,10 @@ export default function HomePage() {
       </section>
 
       {/* 📂 Projects Section */}
-      <section className='h-screen flex items-center justify-center text-white relative z-10 bg-gradient-to-b from-indigo-800/50 to-black/60'>
-        <h1 className='text-5xl font-bold'>Projects</h1>
-      </section>
+      <ProjectsShowcase
+        setPageScrollEnabled={setPageScrollEnabled}
+        pageScrollEnabled={pageScrollEnabled}
+      />
 
       {/* ✉️ Contact Section */}
       <section className='h-screen flex flex-col items-center justify-between text-white relative z-10 bg-gradient-to-b from-black/70 to-purple-900/40 px-6 py-10'>
@@ -363,7 +367,7 @@ export default function HomePage() {
                 LinkedIn
               </a>
               <a
-                href='./assets/doc/Renz-jaskin_Agmata-CV.pdf'
+                href='/Renz-Jaskin-Agmata-CV.pdf'
                 target='_blank'
                 download
                 className='hover:text-purple-400 transition'
