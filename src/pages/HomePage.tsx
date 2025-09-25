@@ -14,22 +14,24 @@ export default function HomePage() {
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('section');
     let touchStartY = 0;
+    let wheelDelta = 0;
 
     const lockScroll = () => {
       setIsLocked(true);
-      setTimeout(() => setIsLocked(false), 700); // smoother debounce
+      wheelDelta = 0; // reset accumulated delta
+      setTimeout(() => setIsLocked(false), 700);
     };
 
     const handleWheel = (e: WheelEvent) => {
       if (!pageScrollEnabled || isLocked) return;
 
-      // ✅ Ignore tiny deltas (touchpad jitter)
-      if (Math.abs(e.deltaY) < 30) return;
+      wheelDelta += e.deltaY;
 
-      if (e.deltaY > 0 && current < sections.length - 1) {
+      // ✅ Use a larger threshold to filter out touchpad jitter
+      if (wheelDelta > 100 && current < sections.length - 1) {
         setCurrent((prev) => prev + 1);
         lockScroll();
-      } else if (e.deltaY < 0 && current > 0) {
+      } else if (wheelDelta < -100 && current > 0) {
         setCurrent((prev) => prev - 1);
         lockScroll();
       }
@@ -44,7 +46,6 @@ export default function HomePage() {
       const touchEndY = e.changedTouches[0].clientY;
       const diffY = touchStartY - touchEndY;
 
-      // ✅ Add swipe threshold (avoid tiny swipes)
       if (Math.abs(diffY) < 50) return;
 
       if (diffY > 0 && current < sections.length - 1) {
