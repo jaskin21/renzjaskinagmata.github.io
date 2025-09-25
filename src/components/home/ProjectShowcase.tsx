@@ -130,7 +130,7 @@ export default function ProjectsShowcase({
   };
 
   return (
-    <section className='h-screen flex flex-col items-center justify-center text-white relative bg-gradient-to-b from-indigo-800/50 to-black/60 px-6 overflow-hidden'>
+    <div className='h-screen flex flex-col items-center justify-center text-white relative bg-gradient-to-b from-indigo-800/50 to-black/60 px-6 overflow-hidden'>
       {/* Title - non-blocking */}
       <h1 className='text-5xl font-bold mb-4 text-center pointer-events-none z-10 relative'>
         Projects
@@ -309,6 +309,6 @@ export default function ProjectsShowcase({
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }

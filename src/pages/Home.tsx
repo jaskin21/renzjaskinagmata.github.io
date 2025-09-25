@@ -7,6 +7,7 @@ import skills from '../assets/link/logo';
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
   const [pageScrollEnabled, setPageScrollEnabled] = useState(true);
   const [isOpen, setIsOpen] = useState(false); // 🍔 burger state
@@ -89,23 +90,6 @@ export default function Home() {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [current, pageScrollEnabled]);
-
-  useEffect(() => {
-    const greetings = document.getElementById('greetings');
-    if (!greetings) return;
-
-    const handleScroll = () => {
-      const rect = greetings.getBoundingClientRect();
-
-      // if greetings bottom <= 0, it's out of view -> show header
-      setShowHeader(rect.bottom <= 0);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // run once on mount
-
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleNavClick = (index: number) => {
@@ -231,7 +215,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id='content'>
+      <section
+        id='content'
+      >
         {/* 👨‍💻 About Section */}
         <div className='h-screen flex items-center justify-center text-white relative z-10 bg-gradient-to-b from-purple-900/50 to-indigo-800/50 px-6'>
           <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
