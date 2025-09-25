@@ -4,6 +4,24 @@ import skills from '../../assets/link/logo';
 
 const projects = [
   {
+    title: 'Todo App',
+    description:
+      'Todo App to help users organize task by adding, edit, delete, and complete tasks, with the option to set urgency levels (low, medium, high, urgent) and custom priority levels (1–5). Tasks are automatically sorted by urgency and level, making it easy to focus on what’s most important. A built-in dark mode improves usability, and pagination.',
+    image: '/images/todo-app.png',
+    video:
+      'https://bboxvitovuruzshokbxr.supabase.co/storage/v1/object/sign/Portfolio/Screen%20Recording%202025-09-25%20134516.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNjNkZDBjOS0xNmY4LTQxY2ItYjBhMS00M2QyMzM3M2IxMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJQb3J0Zm9saW8vU2NyZWVuIFJlY29yZGluZyAyMDI1LTA5LTI1IDEzNDUxNi5tcDQiLCJpYXQiOjE3NTg3NzkyNDksImV4cCI6MTc5MDMxNTI0OX0.LCV0luXKc9xFp5FMPOJVmxeIkRcdDAjg9uCQJWlr018',
+    previewUrl: 'https://jaskindev-todoapp.netlify.app/',
+    frontendUrl: 'https://github.com/jaskin21/todo-app-v2',
+    fullstackUrl: '',
+    techStack: [
+      'Node.js',
+      'Next.js',
+      'JavaScript',
+      'TypeScript',
+      'TailwindCSS',
+    ], // this is required for logos at the bottom
+  },
+  {
     title: 'Track Expense App',
     description:
       'Track Expense App to help users manage their finances. It lets you add, edit, delete, and view expenses, with the option to filter by date range. A built-in pie chart shows the percentage breakdown of spending, making it easy to see where your money goes at a glance.',
@@ -159,10 +177,28 @@ export default function ProjectsShowcase({
                   className='w-full h-full object-cover rounded-lg bg-black'
                 />
 
+                {project.video && i === index && (
+                  <video
+                    src={project.video}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    className='absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.pause();
+                      e.currentTarget.currentTime = 0; // reset when leaving
+                    }}
+                  />
+                )}
+
                 {/* Overlay Links */}
                 <div
-                  className={`absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60 rounded-lg opacity-0 transition-opacity duration-300 ${
-                    i === index ? 'group-hover:opacity-100' : 'opacity-0 pointer-events-none'
+                  className={`absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/50 rounded-lg opacity-0 transition-opacity duration-300 ${
+                    i === index
+                      ? 'group-hover:opacity-100'
+                      : 'opacity-0 pointer-events-none'
                   }`}
                 >
                   {project.previewUrl && (
