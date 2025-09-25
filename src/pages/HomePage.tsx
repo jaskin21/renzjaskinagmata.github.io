@@ -13,10 +13,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>('section');
+    let touchStartY = 0;
+
+    const lockScroll = () => {
+      setIsLocked(true);
+      setTimeout(() => setIsLocked(false), 700); // smoother debounce
+    };
 
     const handleWheel = (e: WheelEvent) => {
-      if (!pageScrollEnabled) return; // 🚫 skip when disabled
-      if (isLocked) return;
+      if (!pageScrollEnabled || isLocked) return;
+
+      // ✅ Ignore tiny deltas (touchpad jitter)
+      if (Math.abs(e.deltaY) < 30) return;
 
       if (e.deltaY > 0 && current < sections.length - 1) {
         setCurrent((prev) => prev + 1);
@@ -27,13 +35,36 @@ export default function HomePage() {
       }
     };
 
-    const lockScroll = () => {
-      setIsLocked(true);
-      setTimeout(() => setIsLocked(false), 100);
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!pageScrollEnabled || isLocked) return;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffY = touchStartY - touchEndY;
+
+      // ✅ Add swipe threshold (avoid tiny swipes)
+      if (Math.abs(diffY) < 50) return;
+
+      if (diffY > 0 && current < sections.length - 1) {
+        setCurrent((prev) => prev + 1);
+        lockScroll();
+      } else if (diffY < 0 && current > 0) {
+        setCurrent((prev) => prev - 1);
+        lockScroll();
+      }
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
   }, [current, isLocked, pageScrollEnabled]);
 
   useEffect(() => {
@@ -129,17 +160,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 👨‍💻 About Me Section */}
+      {/* 👨‍💻 About Section */}
       <section className='h-screen flex items-center justify-center text-white relative z-10 bg-gradient-to-b from-purple-900/50 to-indigo-800/40 px-6'>
         <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
-          {/* Left: Image + About Me */}
+          {/* Left */}
           <div className='text-center md:text-left'>
             <img
               src={profileImg}
               alt='Renz Jaskin Agmata'
               className='w-56 h-56 md:w-64 md:h-64 rounded-full mx-auto md:mx-0 mb-8 border-4 border-purple-500 shadow-lg'
             />
-
             <h2 className='text-5xl font-bold mb-6'>About Me</h2>
             <p className='text-xl text-gray-300 font-medium leading-relaxed md:leading-loose'>
               Full-Stack Developer with expertise in building responsive
@@ -181,31 +211,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 📂 Projects Section */}
+      {/* 📂 Projects */}
       <ProjectsShowcase
         setPageScrollEnabled={setPageScrollEnabled}
         pageScrollEnabled={pageScrollEnabled}
       />
 
-      {/* ✉️ Contact Section */}
+      {/* ✉️ Contact */}
       <section className='h-screen flex flex-col items-center justify-between text-white relative z-10 bg-gradient-to-b from-black/70 to-purple-900/40 px-6 py-10'>
-        {/* Center content */}
         <div className='flex flex-col items-center justify-center flex-grow w-full max-w-5xl'>
           <h2 className='text-5xl font-bold mb-4'>Contact</h2>
           <div className='w-24 h-1 bg-purple-500 rounded-full mb-8'></div>
-
           <p className='text-xl text-gray-300 font-medium text-center leading-relaxed md:leading-loose mb-10'>
             Let’s connect! Fill out the form below or reach me through my
             contact details.
           </p>
 
           <div className='grid md:grid-cols-2 gap-12 w-full'>
-            {/* 📩 Contact Form */}
+            {/* 📩 Form */}
             <form
               action='https://formsubmit.co/b690c0be2522da1b736c8247fd7ec67d'
               method='POST'
               target='_blank'
-              className='flex flex-col gap-4 p-8 rounded-2xl shadow-xl bg-white/5  border border-purple-500/30'
+              className='flex flex-col gap-4 p-8 rounded-2xl shadow-xl bg-white/5 border border-purple-500/30'
             >
               <input
                 type='text'
@@ -235,7 +263,6 @@ export default function HomePage() {
                 rows={5}
                 className='p-3 rounded-md bg-gray-900/70 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition'
               ></textarea>
-
               <input
                 type='submit'
                 value='Send Message 🚀'
@@ -243,8 +270,8 @@ export default function HomePage() {
               />
             </form>
 
-            {/* 📞 Contact Information */}
-            <div className='space-y-6 border border-purple-500/30 bg-white/5  p-8 rounded-2xl shadow-xl'>
+            {/* 📞 Info */}
+            <div className='space-y-6 border border-purple-500/30 bg-white/5 p-8 rounded-2xl shadow-xl'>
               <h3 className='text-3xl font-bold mb-4'>Contact Information</h3>
               <div className='space-y-4 text-gray-300 text-lg'>
                 <p className='flex items-center gap-3'>
@@ -271,13 +298,7 @@ export default function HomePage() {
         {/* Footer */}
         <footer className='w-full border-t border-purple-500/20 mt-12 pt-6 px-6'>
           <div className='max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-gray-400 text-sm'>
-            {/* Left */}
             <div className='flex gap-6 md:text-left'>
-              {/* <p className='font-semibold text-white'>Renz Jaskin Agmata</p>
-              <p>Software Engineer</p>
-            </div>
-
-            <div className='flex gap-6'> */}
               <a
                 href='https://github.com/jaskin21'
                 target='_blank'
@@ -303,8 +324,6 @@ export default function HomePage() {
                 Resume
               </a>
             </div>
-
-            {/* Right */}
             <div className='text-center md:text-right text-xs text-gray-500'>
               © {new Date().getFullYear()} Renz Jaskin Agmata. All rights
               reserved.
@@ -323,9 +342,7 @@ function SkillItem({ name, logo }: { name: string; logo: string }) {
         src={logo}
         alt={name}
         className={`w-12 h-12 mb-2 transition-transform ${
-          name === 'Express.js' || name === 'GitHub' 
-            ? 'filter invert'
-            : ''
+          name === 'Express.js' || name === 'GitHub' ? 'filter invert' : ''
         }`}
       />
       <span className='text-sm font-medium'>{name}</span>
