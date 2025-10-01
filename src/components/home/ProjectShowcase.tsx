@@ -30,7 +30,7 @@ const projects = [
       'Budget Record App built with React Native, Tailwind CSS, and Zustand, allowing users to add expenses, track income and expense history, view total balances, and visualize spending with a pie chart to see where most of the budget goes.',
     image: '/images/budget-app.png',
     video:
-      'https://bboxvitovuruzshokbxr.supabase.co/storage/v1/object/sign/Portfolio/Budget-app.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNjNkZDBjOS0xNmY4LTQxY2ItYjBhMS00M2QyMzM3M2IxMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJQb3J0Zm9saW8vQnVkZ2V0LWFwcC5tcDQiLCJpYXQiOjE3NTkyOTY4NDUsImV4cCI6MTgyMjM2ODg0NX0.5t2TRwZeyLCU-irI12LGzhp678ZNj7t0zVERblrVhyY',
+      'https://bboxvitovuruzshokbxr.supabase.co/storage/v1/object/sign/Portfolio/budget-app.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xNjNkZDBjOS0xNmY4LTQxY2ItYjBhMS00M2QyMzM3M2IxMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJQb3J0Zm9saW8vYnVkZ2V0LWFwcC5tcDQiLCJpYXQiOjE3NTkyOTg5MTcsImV4cCI6MTgyMjM3MDkxN30.UXP1HLdF-LTO_ATfc6Nx5DzPBki2Xl11OcmpMo3wUYM',
     previewUrl: '',
     frontendUrl: 'https://github.com/jaskin21/budget--mobile-app',
     fullstackUrl: '',
