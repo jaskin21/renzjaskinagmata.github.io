@@ -1,14 +1,597 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/siteLogo.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./output.css" rel="stylesheet">
-    <title>Jaskin Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <title>Renz Jaskin Agmata — Software Developer</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="container">
+            <a href="#hero" class="nav-logo">RJA</a>
+            <ul class="nav-links">
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <p class="hero-label">// Software Developer</p>
+                    <h1 class="hero-name">
+                        Renz <span>Jaskin</span> Agmata.
+                    </h1>
+                    <p class="hero-desc">
+                        Full-stack engineer with 4+ years building scalable systems — from serverless AWS architectures
+                        to polished React UIs. I care about clean code, maintainable design, and things that actually
+                        ship.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn">Get in Touch</a>
+                        <a href="cv.pdf" download="Renz_Jaskin_Agmata_CV.pdf" class="btn btn-download">↓ Download CV</a>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="status-card">
+                        <div class="status-row">
+                            <span class="status-key">Status</span>
+                            <span class="status-val accent"><span class="dot"></span>Available</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key">Experience</span>
+                            <span class="status-val">4+ Years</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key">Specialty</span>
+                            <span class="status-val">Full Stack / Serverless</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key">Core Stack</span>
+                            <span class="status-val">MERN · Next.js · AWS</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key">Languages</span>
+                            <span class="status-val">TypeScript · JavaScript · Python</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key">Location</span>
+                            <span class="status-val">Davao, Philippines</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-num">01</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="skills-grid reveal">
+
+                <!-- HTML5 -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                        alt="HTML5" />
+                    <span>HTML5</span>
+                </div>
+
+                <!-- CSS3 -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" />
+                    <span>CSS3</span>
+                </div>
+
+                <!-- JavaScript -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                        alt="JavaScript" />
+                    <span>JavaScript</span>
+                </div>
+
+                <!-- TypeScript -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                        alt="TypeScript" />
+                    <span>TypeScript</span>
+                </div>
+
+                <!-- React JS -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                        alt="React JS" />
+                    <span>React JS</span>
+                </div>
+
+                <!-- Next.js -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+                        alt="Next.js" style="filter: invert(1) grayscale(30%) brightness(0.85);" />
+                    <span>Next.js</span>
+                </div>
+
+                <!-- React Native -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                        alt="React Native" style="filter: hue-rotate(180deg) grayscale(30%) brightness(0.85);" />
+                    <span>React Native</span>
+                </div>
+
+                <!-- TailwindCSS -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
+                        alt="TailwindCSS" />
+                    <span>TailwindCSS</span>
+                </div>
+
+                <!-- Material UI -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg"
+                        alt="Material UI" />
+                    <span>Material UI</span>
+                </div>
+
+                <!-- Node.js -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                        alt="Node.js" />
+                    <span>Node.js</span>
+                </div>
+
+                <!-- Express.js -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+                        alt="Express.js" style="filter: invert(1) grayscale(30%) brightness(0.85);" />
+                    <span>Express.js</span>
+                </div>
+
+                <!-- Zustand -->
+                <div class="skill-pill">
+                    <img src="https://raw.githubusercontent.com/pmndrs/zustand/main/examples/demo/public/favicon.ico" alt="Zustand" />
+                    <span>Zustand</span>
+                </div>
+
+                <!-- PostgreSQL -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                        alt="PostgreSQL" />
+                    <span>PostgreSQL</span>
+                </div>
+
+                <!-- MongoDB -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                        alt="MongoDB" />
+                    <span>MongoDB</span>
+                </div>
+
+                <!-- DynamoDB -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dynamodb/dynamodb-original.svg"
+                        alt="DynamoDB" />
+                    <span>DynamoDB</span>
+                </div>
+
+                <!-- AWS Lambda -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg"
+                        alt="AWS" />
+                    <span>AWS Lambda</span>
+                </div>
+
+                <!-- AWS Serverless -->
+                <div class="skill-pill">
+                    <img src="https://icon.icepanel.io/AWS/svg/Compute/Lambda.svg" alt="AWS Serverless" />
+                    <span>AWS Serverless</span>
+                </div>
+
+                <!-- Vite -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" alt="Vite" />
+                    <span>Vite</span>
+                </div>
+
+                <!-- Redux Toolkit -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg"
+                        alt="Redux Toolkit" />
+                    <span>Redux Toolkit</span>
+                </div>
+
+                <!-- Axios -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/axios/axios-plain.svg" alt="Axios" />
+                    <span>Axios</span>
+                </div>
+
+                <!-- Zod -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/colinhacks/zod/logo.svg" alt="Zod" />
+                    <span>Zod</span>
+                </div>
+
+                <!-- React Hook Form -->
+                <div class="skill-pill">
+                    <img src="https://react-hook-form.com/images/logo/react-hook-form-logo-only.png"
+                        alt="React Hook Form" style="border-radius: 4px;" />
+                    <span>Hook Form</span>
+                </div>
+
+                <!-- Recharts -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/d3js/d3js-original.svg" alt="Recharts" />
+                    <span>Recharts</span>
+                </div>
+
+                <!-- Jest -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" alt="Jest" />
+                    <span>Jest</span>
+                </div>
+
+                <!-- GitHub -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                        alt="GitHub" style="filter: invert(1) grayscale(30%) brightness(0.85);" />
+                    <span>GitHub</span>
+                </div>
+
+                <!-- GitLab -->
+                <div class="skill-pill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg"
+                        alt="GitLab" />
+                    <span>GitLab</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-num">02</span>
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="projects-list reveal">
+
+                <!-- Project 1: Recipe App Fullstack -->
+                <div class="project-item">
+                    <div>
+                        <div class="proj-num">001</div>
+                        <div class="proj-name">Recipe App</div>
+                        <p class="proj-desc">
+                            Full-stack recipe platform built on AWS serverless infrastructure and React. Features
+                            authentication via Cognito, AI-powered recipe recommendations using Hugging Face,
+                            save/archive, ratings, and an admin dashboard — deployed on S3 + CloudFront with
+                            API Gateway and Lambda backend. Login required to explore.
+                        </p>
+                        <div class="proj-stack">
+                            <span class="proj-tag">React</span>
+                            <span class="proj-tag">TypeScript</span>
+                            <span class="proj-tag">AWS Lambda</span>
+                            <span class="proj-tag">DynamoDB</span>
+                            <span class="proj-tag">Cognito</span>
+                            <span class="proj-tag">RTK Query</span>
+                            <span class="proj-tag">Hugging Face</span>
+                            <span class="proj-tag">AWS CDK</span>
+                            <span class="proj-tag">S3</span>
+                            <span class="proj-tag">CloudFront</span>
+                            <span class="proj-tag">Vite</span>
+                            <span class="proj-tag">React Hook Form</span>
+                            <span class="proj-tag">Zod</span>
+                            <span class="proj-tag">Axios</span>
+                            <span class="proj-tag">Recharts</span>
+                            <span class="proj-tag">Tailwind CSS</span>
+                            <span class="proj-tag">AWS Amplify</span>
+                            <span class="proj-tag">React Router</span>
+                            <span class="proj-tag">Jest</span>
+                        </div>
+                    </div>
+                    <div class="proj-links">
+                        <a href="https://d2fzvkbgrnfajf.cloudfront.net/login" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            Preview
+                        </a>
+                        <a href="https://github.com/jaskin21/serverless-recipe-app" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="proj-link preview" target="_blank">
+                            ▶ Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Preview + GitHub FE + GitHub BE -->
+                <div class="project-item">
+                    <div>
+                        <div class="proj-num">002</div>
+                        <div class="proj-name">E-Commerce Store</div>
+                        <p class="proj-desc">
+                            Frontend e-commerce app where users can browse products, manage cart items, and view
+                            purchase totals — built with a responsive, user-friendly UI using React, Zustand, and
+                            Tailwind CSS. Includes animations via Framer Motion and E2E tests with Playwright.
+                        </p>
+                        <div class="proj-stack">
+                            <span class="proj-tag">React</span>
+                            <span class="proj-tag">TypeScript</span>
+                            <span class="proj-tag">Zustand</span>
+                            <span class="proj-tag">Tailwind CSS</span>
+                            <span class="proj-tag">RTK Query</span>
+                            <span class="proj-tag">React Hook Form</span>
+                            <span class="proj-tag">Framer Motion</span>
+                            <span class="proj-tag">Recharts</span>
+                            <span class="proj-tag">Radix UI</span>
+                            <span class="proj-tag">Playwright</span>
+                            <span class="proj-tag">Vite</span>
+                        </div>
+                    </div>
+                    <div class="proj-links">
+                        <a href="https://jaskindev-ecommerce-app.netlify.app/" class="proj-link preview" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            Preview
+                        </a>
+                        <a href="https://github.com/jaskin21/ecommerce-app" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: Preview only -->
+                <div class="project-item">
+                    <div>
+                        <div class="proj-num">003</div>
+                        <div class="proj-name">Todo App</div>
+                        <p class="proj-desc">
+                            Task management app with add, edit, delete, and complete functionality. Features urgency
+                            levels (low, medium, high, urgent), custom priority ranking (1–5), automatic task sorting,
+                            dark mode, and pagination — built with Next.js and Zustand.
+                        </p>
+                        <div class="proj-stack">
+                            <span class="proj-tag">Next.js</span>
+                            <span class="proj-tag">React</span>
+                            <span class="proj-tag">TypeScript</span>
+                            <span class="proj-tag">Zustand</span>
+                            <span class="proj-tag">Tailwind CSS</span>
+                            <span class="proj-tag">Framer Motion</span>
+                        </div>
+                    </div>
+                    <div class="proj-links">
+                        <a href="https://jaskindev-todoapp.netlify.app/" class="proj-link preview" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            Preview
+                        </a>
+                        <a href="https://github.com/jaskin21/todo-app-v2" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4: Preview + GitHub FE + GitHub BE -->
+                <div class="project-item">
+                    <div>
+                        <div class="proj-num">004</div>
+                        <div class="proj-name">Expense Tracker</div>
+                        <p class="proj-desc">
+                            Full-stack expense management app to add, edit, delete, and filter expenses by date range.
+                            Features a pie chart breakdown of spending categories and a Swagger-documented REST API
+                            backend — built with React, Redux Toolkit, Express, and DynamoDB.
+                        </p>
+                        <div class="proj-stack">
+                            <span class="proj-tag">React</span>
+                            <span class="proj-tag">TypeScript</span>
+                            <span class="proj-tag">RTK Query</span>
+                            <span class="proj-tag">Tailwind CSS</span>
+                            <span class="proj-tag">Recharts</span>
+                            <span class="proj-tag">React Hook Form</span>
+                            <span class="proj-tag">Radix UI</span>
+                            <span class="proj-tag">Node.js</span>
+                            <span class="proj-tag">Express</span>
+                            <span class="proj-tag">DynamoDB</span>
+                            <span class="proj-tag">Swagger</span>
+                            <span class="proj-tag">Joi</span>
+                        </div>
+                    </div>
+                    <div class="proj-links">
+                        <a href="https://github.com/jaskin21/daily-expenses-FE" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub FE
+                        </a>
+                        <a href="https://github.com/jaskin21/daily-expenses-BE" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub BE
+                        </a>
+                        <a href="#" class="proj-link preview" target="_blank">
+                            ▶ Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 1: Geo Location App Fullstack -->
+                <div class="project-item">
+                    <div>
+                        <div class="proj-num">005</div>
+                        <div class="proj-name">Geo Location App</div>
+                        <p class="proj-desc">
+                            Full-stack IP lookup app that retrieves location details for any IP address. Tracks
+                            search history for quick revisits and includes a bookmarking feature with a side drawer
+                            for saving important lookups — built with React, Redux Toolkit, Express, and MongoDB.
+                        </p>
+                        <div class="proj-stack">
+                            <span class="proj-tag">React</span>
+                            <span class="proj-tag">TypeScript</span>
+                            <span class="proj-tag">RTK Query</span>
+                            <span class="proj-tag">Tailwind CSS</span>
+                            <span class="proj-tag">React Hook Form</span>
+                            <span class="proj-tag">Node.js</span>
+                            <span class="proj-tag">Express</span>
+                            <span class="proj-tag">MongoDB</span>
+                            <span class="proj-tag">Mongoose</span>
+                            <span class="proj-tag">JWT</span>
+                            <span class="proj-tag">Joi</span>
+                        </div>
+                    </div>
+                    <div class="proj-links">
+                        <a href="https://github.com/jaskin21/geo-location-app" class="proj-link" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="#" class="proj-link preview" target="_blank">
+                            ▶ Demo
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-num">03</span>
+                <h2 class="section-title">Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="exp-list reveal">
+                <div class="exp-item">
+                    <div class="exp-period">2022 — Present</div>
+                    <div>
+                        <div class="exp-role">Software Developer</div>
+                        <div class="exp-company">Full-time · Full Stack</div>
+                        <ul class="exp-bullets">
+                            <li>Develop and maintain full-stack applications using React.js, Next.js, Node.js, Express.js, and TypeScript.</li>
+                            <li>Design and implement RESTful APIs and backend microservices with PostgreSQL and AWS Lambda.</li>
+                            <li>Utilize AWS services such as SQS, SES, and CDK for serverless deployment and infrastructure automation.</li>
+                            <li>Build responsive frontend interfaces using Material-UI, Tailwind CSS, and ShadCN UI based on Figma designs.</li>
+                            <li>Shipped features end-to-end from database to UI, with CI/CD pipelines via GitHub Action.</li>
+                            <li>Manage state and form logic using React Hooks, React Context, React Hook Form, and RTK Query.</li>
+                            <li>Develop and execute integration and E2E tests with Vitest and Playwright.</li>
+                            <li>Collaborate through GitHub for version control, code reviews, and CI/CD workflows.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="exp-item">
+                    <div class="exp-period">2019 — 2022</div>
+                    <div>
+                        <div class="exp-role">Laboratory Aide</div>
+                        <div class="exp-company">Full-time · Data & Lab Operations</div>
+                        <ul class="exp-bullets">
+                            <li>Created data visualizations to support lab analysis.</li>
+                            <li>Organized and maintained lab documentation, including calibrations and team travel.</li>
+                            <li>Communicated with clients and stakeholders, supporting lab manager in daily operations.</li>
+                            <li>Ensured accurate data entry and efficient record-keeping.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-num">04</span>
+                <h2 class="section-title">Contact</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="contact-inner reveal">
+                <div>
+                    <div class="contact-title">Let's build something.</div>
+                    <p class="contact-sub">
+                        Open to new opportunities, freelance projects, and interesting conversations about tech. Based
+                        in Davao, Philippines — remote-friendly.
+                    </p>
+                </div>
+                <div class="contact-links">
+                    <a href="mailto:jaskin.agmata@gmail.com" class="contact-link">
+                        <span class="contact-link-icon">✉</span>
+                        <span>jaskin.agmata@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/jaskin21" target="_blank" class="contact-link">
+                        <span class="contact-link-icon">⌥</span>
+                        github.com/jaskin21
+                    </a>
+                    <a href="https://www.linkedin.com/in/renz-jaskin-agmata-03284a18a/" target="_blank" class="contact-link">
+                        <span class="contact-link-icon">⊞</span>
+                        linkedin.com/in/renz-jaskin-agmata-03284a18a/
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p class="footer-copy">© 2025 Renz Jaskin Agmata</p>
+            <p class="footer-mark">Built with <span>precision</span> · Davao, PH</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.08 });
+        reveals.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+
 </html>
